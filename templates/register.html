@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Ro'yxatdan o'tish{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card p-4 shadow mx-auto" style="max-width: 450px;">
+        <h3 class="text-center mb-3">Ro'yxatdan o'tish</h3>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, msg in messages %}
+            <div class="alert alert-{{ 'danger' if category == 'danger' else 'warning' if category == 'warning' else 'success' }}">{{ msg }}</div>
+          {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        <form method="POST">
+            <label>F.I.Sh</label>
+            <input type="text" name="name" class="form-control mb-3" required>
+
+            <label>Email</label>
+            <input type="email" name="email" class="form-control mb-3" required>
+
+            <label>Parol</label>
+            <input type="password" name="password" class="form-control mb-3" required>
+
+            <button class="btn btn-primary w-100 py-2">Ro'yxatdan o'tish</button>
+
+            <p class="text-center mt-3">
+                Akkountingiz bormi? <a href="{{ url_for('login') }}">Kirish</a>
+            </p>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}Rezyumeni Tahrirlash{% endblock %}
+
+{% block content %}
+<nav class="navbar navbar-expand-lg navbar-dark" style="background: rgba(0, 0, 0, 0.3); border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+    <div class="container-fluid">
+        <span class="navbar-brand fw-bold">AUTO REZYUME</span>
+    </div>
+</nav>
+
+<div class="container mt-5" style="max-width: 700px;">
+    <a href="{{ url_for('dashboard') }}" class="btn btn-outline-light mb-3">← Ortga</a>
+    <h2 class="mb-4 fw-bold">Rezyumeni Tahrirlash</h2>
+    
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ 'danger' if category == 'danger' else 'warning' if category == 'warning' else 'success' }}" role="alert">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <div class="card p-5 shadow" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.2);">
+      <form method="POST">
+        <div class="mb-3">
+          <label for="full_name" class="form-label fw-semibold">To'liq Ism *</label>
+          <input type="text" id="full_name" name="full_name" class="form-control" value="{{ resume.full_name }}" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="profession" class="form-label fw-semibold">Mutaxassislik *</label>
+          <input type="text" id="profession" name="profession" class="form-control" value="{{ resume.profession }}" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="about" class="form-label fw-semibold">Men Haqimda</label>
+          <textarea id="about" name="about" class="form-control" style="min-height: 100px;">{{ resume.about }}</textarea>
+        </div>
+
+        <div class="mb-3">
+          <label for="education" class="form-label fw-semibold">Ta'lim</label>
+          <textarea id="education" name="education" class="form-control" style="min-height: 100px;">{{ resume.education }}</textarea>
+        </div>
+
+        <div class="mb-3">
+          <label for="experience" class="form-label fw-semibold">Ish Tajribasi</label>
+          <textarea id="experience" name="experience" class="form-control" style="min-height: 100px;">{{ resume.experience }}</textarea>
+        </div>
+
+        <div class="mb-3">
+          <label for="skills" class="form-label fw-semibold">Ko'nikma va Malakalar</label>
+          <textarea id="skills" name="skills" class="form-control" style="min-height: 100px;">{{ resume.skills }}</textarea>
+        </div>
+
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+          <a href="{{ url_for('dashboard') }}" class="btn btn-outline-light">Bekor qilish</a>
+          <button type="submit" class="btn btn-success px-4 py-2 fw-semibold">Saqlash</button>
+        </div>
+      </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Boshqarish Paneli{% endblock %}
+
+{% block content %}
+<nav class="navbar navbar-expand-lg navbar-dark" style="background: rgba(11, 19, 44, 0.522); border-bottom: 1px solid rgb(255, 255, 255);">
+    <div class="container-fluid">
+        <span class="navbar-brand fw-bold">AUTO REZYUME</span>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <span class="nav-link text-light">Salom, {{ user }}!</span>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('logout') }}">Chiqish</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-5">
+    <h2 class="mb-4 fw-bold">Mening Rezyumelerim</h2>
+    
+    <a href="{{ url_for('create_resume') }}" class="btn btn-primary btn-lg mb-4">+ Yangi Rezyume</a>
+
+    {% if resumes %}
+        <div class="row">
+        {% for resume in resumes %}
+            <div class="col-md-6 mb-4">
+                <div class="card p-4 shadow" style="background: rgb(255, 255, 255); border: 1px solid rgb(255, 255, 255);">
+                    <h5 class="card-title">{{ resume.full_name }}</h5>
+                    <p class="card-text text-muted">
+                        <strong>Mutaxassislik:</strong> {{ resume.profession }}
+                    </p>
+                    <p class="card-text text-muted">
+                        <strong>Yaratilgan:</strong> {{ resume.created_at }}
+                    </p>
+                    <a href="{{ url_for('view_resume', id=resume.id) }}" class="btn btn-primary w-100 mb-2">Ko'rish</a>
+                    <a href="{{ url_for('edit_resume', id=resume.id) }}" class="btn btn-warning w-100 mb-2">Tahrirlash</a>
+                    <form action="{{ url_for('delete_resume', id=resume.id) }}" method="POST" onsubmit="return confirm('Rostan ham o\x27chirmoqchimisiz?')" style="display: inline-block; width: 100%;">
+                        <button type="submit" class="btn btn-danger w-100">O'chirish</button>
+                    </form>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info text-center">
+            <p>Hali rezyume yo'q. <a href="{{ url_for('create_resume') }}" class="alert-link">Yangi rezyume yaratish</a></p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
