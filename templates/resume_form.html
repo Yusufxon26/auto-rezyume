@@ -1,77 +1,110 @@
 {% extends "base.html" %}
-{% block title %}Rezyume Yaratish{% endblock %}
+{% block title %}Yangi rezyume yaratish{% endblock %}
 
 {% block content %}
-<nav class="navbar navbar-expand-lg navbar-dark" style="background: rgba(0, 0, 0, 0.3); border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
-    <div class="container-fluid">
-        <span class="navbar-brand fw-bold">AUTO REZYUME</span>
-    </div>
-</nav>
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow-lg border-0">
+                <div class="card-header text-center" style="background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);">
+                    <h4 class="text-white mb-0">Bosqichma-bosqich professional rezyume yaratish</h4>
+                    <small class="text-light">Savollarga javob bering – tizim avtomatik CV shakllantiradi</small>
+                </div>
+                <div class="card-body" style="background: rgba(255,255,255,0.95);">
 
-<div class="container mt-5" style="max-width: 700px;">
-    <a href="{{ url_for('dashboard') }}" class="btn btn-outline-light mb-3">← Ortga</a>
-    <h2 class="mb-4 fw-bold">Yangi Rezyume Yaratish</h2>
-    
-    {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-        {% for category, message in messages %}
-          <div class="alert alert-{{ 'danger' if category == 'danger' else 'warning' if category == 'warning' else 'success' }}" role="alert">
-            {{ message }}
-          </div>
-        {% endfor %}
-      {% endif %}
-    {% endwith %}
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ 'danger' if category == 'danger' else 'warning' if category == 'warning' else 'success' }}" role="alert">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    {% endwith %}
 
-    <div class="card p-5 shadow" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.2);">
-      <form method="POST" enctype="multipart/form-data">
-        <div class="mb-3">
-          <label for="full_name" class="form-label fw-semibold">To'liq Ism *</label>
-          <input type="text" id="full_name" name="full_name" class="form-control" placeholder="Masalan: Alisher Navoi'yev" required>
+                    <form action="{{ url_for('create_resume') }}" method="post" enctype="multipart/form-data" novalidate>
+                        <!-- 1-bosqich: Shaxsiy ma'lumotlar -->
+                        <h5 class="mb-3">1. Shaxsiy ma'lumotlar</h5>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label">To'liq ism-familiyangiz *</label>
+                                <input type="text" name="full_name" class="form-control" required
+                                       placeholder="Masalan: Raxmatov Yusuxon">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Kasbingiz / Lavozimingiz *</label>
+                                <input type="text" name="profession" class="form-control" required
+                                       placeholder="Masalan: Dasturchi (Python Backend Developer)">
+                            </div>
+                        </div>
+
+                        <!-- 2-bosqich: Qisqacha o'zingiz haqingizda -->
+                        <h5 class="mb-3">2. Qisqacha o'zingiz haqingizda</h5>
+                        <div class="mb-4">
+                            <label class="form-label">
+                                Bir necha gap bilan o'zingizni tasvirlab bering
+                            </label>
+                            <textarea name="about" rows="3" class="form-control"
+                                      placeholder="Masalan: 2 yillik tajribaga ega, mas'uliyatli va yangi texnologiyalarni tez o'zlashtiradigan dasturchi."></textarea>
+                        </div>
+
+                        <!-- 3-bosqich: Ta'lim -->
+                        <h5 class="mb-3">3. Ta'lim ma'lumotlaringiz</h5>
+                        <div class="mb-3">
+                            <label class="form-label">O'qigan OTM / Litsey / Kollej</label>
+                            <textarea name="education" rows="3" class="form-control"
+                                      placeholder="Masalan: Buxoro davlat texnika universiteti, Axborot texnologiyalari yo'nalishi, 2021–2025."></textarea>
+                        </div>
+
+                        <!-- 4-bosqich: Ish tajribasi -->
+                        <h5 class="mb-3">4. Ish tajribangiz (bo'lsa)</h5>
+                        <div class="mb-3">
+                            <label class="form-label">Oldingi ish joylaringiz, lavozim va vazifalar</label>
+                            <textarea name="experience" rows="4" class="form-control"
+                                      placeholder="Masalan: '2023–2024: Junior Python dasturchi, mas'uliyatlar – API yozish, ma'lumotlar bazasi bilan ishlash, xatoliklarni tuzatish va hokazo.'"></textarea>
+                        </div>
+
+                        <!-- 5-bosqich: Ko'nikmalar -->
+                        <h5 class="mb-3">5. Ko'nikmalar (skills)</h5>
+                        <div class="mb-4">
+                            <label class="form-label">Texnik va shaxsiy ko'nikmalaringizni yozing</label>
+                            <textarea name="skills" rows="3" class="form-control"
+                                      placeholder="Masalan: Python, Flask, MySQL, Git, HTML/CSS, Jamoada ishlash, Tahliliy fikrlash."></textarea>
+                        </div>
+
+                        <!-- 6-bosqich: Foto va shablon -->
+                        <h5 class="mb-3">6. 3x4 foto va dizayn</h5>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label">3x4 formatdagi rasm (ixtiyoriy)</label>
+                                <input type="file" name="photo" class="form-control" accept="image/*" onchange="validatePhotoFile(this)">
+                                <div class="form-text">Faqat JPG, JPEG, PNG. Maks. 5MB.</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Rezyume shabloni</label>
+                                <select name="template" class="form-select">
+                                    <option value="classic">Klassik (oddiy va rasmiy)</option>
+                                    <option value="modern">Zamonaviy (rangli sarlavhalar bilan)</option>
+                                    <option value="minimal">Minimalist (oddiy, toza dizayn)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Tugmalar -->
+                        <div class="d-flex justify-content-between">
+                            <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary">
+                                Ortga qaytish
+                            </a>
+                            <button type="submit" class="btn btn-success">
+                                Rezyumeni yaratish
+                            </button>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
         </div>
-
-        <div class="mb-3">
-          <label for="profession" class="form-label fw-semibold">Mutaxassislik *</label>
-          <input type="text" id="profession" name="profession" class="form-control" placeholder="Masalan: Senior Python Developer" required>
-        </div>
-
-        <div class="mb-3">
-          <label for="about" class="form-label fw-semibold">Men Haqimda</label>
-          <textarea id="about" name="about" class="form-control" placeholder="O'zingiz haqida qisqacha ma'lumot..." style="min-height: 100px;"></textarea>
-        </div>
-
-        <div class="mb-3">
-          <label for="education" class="form-label fw-semibold">Ta'lim</label>
-          <textarea id="education" name="education" class="form-control" placeholder="Masalan: Tashkent Davlat Texnika Universiteti, Faqulteti, Yili" style="min-height: 100px;"></textarea>
-        </div>
-
-        <div class="mb-3">
-          <label for="experience" class="form-label fw-semibold">Ish Tajribasi</label>
-          <textarea id="experience" name="experience" class="form-control" placeholder="Masalan: ABC Kompaniyasi - Senior Developer (2020-2024)" style="min-height: 100px;"></textarea>
-        </div>
-
-        <div class="mb-3">
-          <label for="skills" class="form-label fw-semibold">Ko'nikma va Malakalar</label>
-          <textarea id="skills" name="skills" class="form-control" placeholder="Masalan: Python, JavaScript, React, SQL va boshqalar" style="min-height: 100px;"></textarea>
-        </div>
-
-        <div class="mb-3">
-          <label for="template" class="form-label fw-semibold">Shablon *</label>
-          <select id="template" name="template" class="form-select" required>
-            <option value="">Shablon tanlang</option>
-            <option value="modern">Modern</option>
-            <option value="classic">Klassik</option>
-            <option value="minimal">Minimal</option>
-          </select>
-        </div>
-
-        <div class="mb-3">
-          <label for="photo" class="form-label fw-semibold">3x4 surat yuklang (JPG/PNG, max 5MB)</label>
-          <input type="file" id="photo" name="photo" class="form-control" accept=".jpg,.jpeg,.png">
-          <small class="text-muted d-block mt-1">Ixtiyoriy maydon</small>
-        </div>
-
-        <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold mt-4">Rezyume Yaratish</button>
-      </form>
     </div>
 </div>
 {% endblock %}

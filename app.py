@@ -94,49 +94,61 @@ def dashboard():
     return render_template('dashboard.html', resumes=[], user=session.get('user_name', ''))
 
 
-# Yangi rezyume
+# Yangi rezyume yaratish (savol-javobli forma asosida)
 @app.route('/create_resume', methods=['GET', 'POST'])
 def create_resume():
     if 'user_id' not in session:
         return redirect(url_for('login'))
-    if request.method == 'POST':
-        full_name = request.form['full_name']
-        profession = request.form['profession']
-        about = request.form['about']
-        education = request.form['education']
-        experience = request.form['experience']
-        skills = request.form['skills']
-        template = request.form['template']
 
-        # Rasm yuklash
+    if request.method == 'POST':
+        full_name   = request.form.get('full_name')
+        profession  = request.form.get('profession')
+        about       = request.form.get('about')
+        education   = request.form.get('education')
+        experience  = request.form.get('experience')
+        skills      = request.form.get('skills')
+        template    = request.form.get('template', 'classic')
+
+        # Rasm yuklash (3x4)
         photo_path = None
         if 'photo' in request.files:
             photo = request.files['photo']
             if photo and allowed_file(photo.filename):
                 filename = secure_filename(photo.filename)
                 import uuid
-                filename = str(uuid.uuid4()) + '_' + filename
-                photo.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                filename = f"{uuid.uuid4()}_{filename}"
+                upload_full = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+                photo.save(upload_full)
                 photo_path = f"{app.config['UPLOAD_FOLDER']}/{filename}"
-            elif photo and photo.filename != '':
-                flash("Faqat JPG, JPEG yoki PNG formatida rasm yuklashingiz mumkin!", "warning")
-                return render_template('resume_form.html')
+
+        # Minimal tekshiruvlar
+        if not full_name or not profession:
+            flash("Ism-familiya va kasb nomi majburiy!", "danger")
+            return render_template('resume_form.html')
 
         conn = get_connection()
         if conn:
             cursor = conn.cursor()
             try:
                 cursor.execute("""
-                    INSERT INTO resumes (user_id, full_name, profession, about, education, experience, skills, template_name, photo_path)
+                    INSERT INTO resumes 
+                        (user_id, full_name, profession, about, education, experience, skills, template_name, photo_path)
                     VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)
-                """, (session['user_id'], full_name, profession, about, education, experience, skills, template, photo_path))
+                """, (
+                    session['user_id'], full_name, profession, about,
+                    education, experience, skills, template, photo_path
+                ))
                 conn.commit()
-                cursor.close()
-                conn.close()
-                flash("Rezyume muvaffaqiyatli yaratildi!", "success")
+                flash("Rezyume savollarga asoslangan professional formatda yaratildi!", "success")
                 return redirect(url_for('dashboard'))
             except Exception as e:
-                flash(f"Xato: {str(e)}", "danger")
+                conn.rollback()
+                flash(f"Rezyume yaratishda xato: {e}", "danger")
+            finally:
+                cursor.close()
+                conn.close()
+
+    # GET – bo'lsa, formani ko'rsatamiz
     return render_template('resume_form.html')
 
 

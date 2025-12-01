@@ -1,87 +1,76 @@
 {% extends "base.html" %}
-{% block title %}{{ resume.full_name }} - AUTO REZYUME{% endblock %}
+{% block title %}{{ resume.full_name }} - Rezyume{% endblock %}
 
 {% block content %}
-<nav class="navbar navbar-expand-lg navbar-dark" style="background: rgba(0, 0, 0, 0.3); border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
-    <div class="container-fluid">
-        <span class="navbar-brand fw-bold">AUTO REZYUME</span>
-    </div>
-</nav>
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-9">
+            <div class="card shadow-lg border-0">
+                <div class="card-body p-4">
 
-<div class="container mt-4" style="max-width: 900px;">
-    <div class="mb-4">
-        <a href="{{ url_for('dashboard') }}" class="btn btn-outline-light">← Ortga</a>
-        <button class="btn btn-primary ms-2" onclick="window.print()">📄 PDF Qilib Saqlash</button>
-    </div>
+                    <div class="row">
+                        <!-- Chap tomonda asosiy ma'lumotlar -->
+                        <div class="col-md-8">
+                            <h2 class="mb-0">{{ resume.full_name }}</h2>
+                            <h5 class="text-muted mb-3">{{ resume.profession }}</h5>
 
-    <div class="card shadow" style="background: white; color: #333;">
-        <div class="card-body p-5">
-            <!-- Header with photo -->
-            <div class="border-bottom pb-4 mb-4">
-                <div class="row align-items-center">
-                    {% if resume.photo_path %}
-                        <div class="col-md-2 text-center mb-3 mb-md-0">
-                            <img src="/{{ resume.photo_path }}" alt="Profil rasmi" class="rounded shadow" width="120" height="150" style="object-fit: cover;">
+                            {% if resume.about %}
+                            <h6 class="mt-3 text-uppercase text-secondary">Qisqacha o'zim haqimda</h6>
+                            <hr class="mt-1 mb-2">
+                            <p style="white-space: pre-line;">{{ resume.about }}</p>
+                            {% endif %}
+
+                            {% if resume.education %}
+                            <h6 class="mt-4 text-uppercase text-secondary">Ta'lim</h6>
+                            <hr class="mt-1 mb-2">
+                            <p style="white-space: pre-line;">{{ resume.education }}</p>
+                            {% endif %}
+
+                            {% if resume.experience %}
+                            <h6 class="mt-4 text-uppercase text-secondary">Ish tajribasi</h6>
+                            <hr class="mt-1 mb-2">
+                            <p style="white-space: pre-line;">{{ resume.experience }}</p>
+                            {% endif %}
+
+                            {% if resume.skills %}
+                            <h6 class="mt-4 text-uppercase text-secondary">Ko'nikmalar</h6>
+                            <hr class="mt-1 mb-2">
+                            <p style="white-space: pre-line;">{{ resume.skills }}</p>
+                            {% endif %}
                         </div>
-                        <div class="col-md-10">
-                    {% else %}
-                        <div class="col-12">
-                    {% endif %}
-                            <h1 class="fw-bold text-dark mb-0">{{ resume.full_name }}</h1>
-                            <p class="text-primary fw-semibold mb-0" style="color: #00c6ff;">{{ resume.profession }}</p>
+
+                        <!-- O'ng tomonda foto va qisqa blok -->
+                        <div class="col-md-4 text-center">
+                            {% if resume.photo_path %}
+                                <img src="{{ url_for('static', filename=resume.photo_path.split('static/')[-1]) }}"
+                                     alt="Foto" class="responsive-photo mb-3">
+                            {% else %}
+                                <div class="responsive-photo mb-3 d-flex align-items-center justify-content-center"
+                                     style="background:#f0f0f0; color:#777;">
+                                    <span>Foto yuklanmagan</span>
+                                </div>
+                            {% endif %}
+
+                            <div class="p-3 border rounded" style="background: #f8f9fa;">
+                                <h6 class="text-uppercase text-secondary mb-2">Umumiy ma'lumot</h6>
+                                <p class="small mb-1"><strong>Foydalanuvchi ID:</strong> {{ resume.user_id }}</p>
+                                <p class="small mb-1"><strong>Yaratilgan vaqt:</strong> {{ resume.created_at }}</p>
+                                <p class="small mb-0"><strong>Shablon:</strong> {{ resume.template_name }}</p>
+                            </div>
                         </div>
                     </div>
+
+                    <div class="mt-4 d-flex justify-content-between">
+                        <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary">
+                            Ortga – rezyumelar ro'yxati
+                        </a>
+                        <!-- Keyinchalik shu yerga PDF yuklab olish tugmasi qo'shish mumkin -->
+                        <!-- <a href="#" class="btn btn-primary">CV (PDF) yuklab olish</a> -->
+                    </div>
+
                 </div>
-            </div>
-
-            <!-- About -->
-            {% if resume.about %}
-            <div class="mb-5">
-                <h5 class="fw-bold text-dark mb-3" style="border-left: 4px solid #00c6ff; padding-left: 12px;">Men Haqimda</h5>
-                <p class="text-dark">{{ resume.about }}</p>
-            </div>
-            {% endif %}
-
-            <!-- Education -->
-            {% if resume.education %}
-            <div class="mb-5">
-                <h5 class="fw-bold text-dark mb-3" style="border-left: 4px solid #00c6ff; padding-left: 12px;">Ta'lim</h5>
-                <p class="text-dark">{{ resume.education }}</p>
-            </div>
-            {% endif %}
-
-            <!-- Experience -->
-            {% if resume.experience %}
-            <div class="mb-5">
-                <h5 class="fw-bold text-dark mb-3" style="border-left: 4px solid #00c6ff; padding-left: 12px;">Ish Tajribasi</h5>
-                <p class="text-dark">{{ resume.experience }}</p>
-            </div>
-            {% endif %}
-
-            <!-- Skills -->
-            {% if resume.skills %}
-            <div class="mb-5">
-                <h5 class="fw-bold text-dark mb-3" style="border-left: 4px solid #00c6ff; padding-left: 12px;">Ko'nikma va Malakalar</h5>
-                <p class="text-dark">{{ resume.skills }}</p>
-            </div>
-            {% endif %}
-
-            <!-- Footer -->
-            <div class="border-top pt-3 text-center text-muted small">
-                Shablon: <strong>{{ resume.template_name }}</strong> | Yaratilgan: <strong>{{ resume.created_at }}</strong>
             </div>
         </div>
     </div>
 </div>
-
-<style>
-    @media print {
-        body {
-            background: white;
-        }
-        .navbar, .btn {
-            display: none;
-        }
-    }
-</style>
 {% endblock %}
