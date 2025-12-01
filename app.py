@@ -103,13 +103,18 @@ def create_resume():
         return redirect(url_for('login'))
 
     if request.method == 'POST':
-        full_name   = request.form['full_name']
-        profession  = request.form['profession']
-        about       = request.form['about']
-        education   = request.form['education']
-        experience  = request.form['experience']
-        skills      = request.form['skills']
-        template    = request.form['template']
+        full_name           = request.form['full_name']
+        profession          = request.form['profession']
+        phone               = request.form.get('phone', '')
+        email               = request.form.get('email', '')
+        city                = request.form.get('city', '')
+        career_objective    = request.form.get('career_objective', '')
+        education           = request.form.get('education', '')
+        experience          = request.form.get('experience', '')
+        skills              = request.form.get('skills', '')
+        soft_skills         = request.form.get('soft_skills', '')
+        languages           = request.form.get('languages', '')
+        certificates        = request.form.get('certificates', '')
 
         photo_path = None
         if 'photo' in request.files:
@@ -125,11 +130,12 @@ def create_resume():
         cursor = conn.cursor()
         cursor.execute("""
             INSERT INTO resumes 
-            (user_id, full_name, profession, about, education, experience, skills, template_name, photo_path)
-            VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)
+            (user_id, full_name, profession, phone, email, city, career_objective, 
+             education, experience, skills, soft_skills, languages, certificates, photo_path)
+            VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
         """, (
-            session['user_id'], full_name, profession, about,
-            education, experience, skills, template, photo_path
+            session['user_id'], full_name, profession, phone, email, city, career_objective,
+            education, experience, skills, soft_skills, languages, certificates, photo_path
         ))
         conn.commit()
         cursor.close()

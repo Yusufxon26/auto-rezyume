@@ -1,12 +1,13 @@
 {% extends "base.html" %}
-{% block title %}Bosh sahifa{% endblock %}
+{% block title %}AUTO REZYUME – Bosh sahifa{% endblock %}
 
 {% block content %}
-<div class="hero-section text-center d-flex flex-column justify-content-center align-items-center text-white" style="min-height: 80vh;">
-    <h1 class="fw-bold mb-3 display-3">AUTO REZYUME</h1>
-    <p class="text-white-50 fs-5 mb-4">
-        Avtomatik tarzda professional rezyume yaratish tizimi.
-    </p>
-    <a href="{{ url_for('register') }}" class="btn btn-lg btn-primary px-5 rounded-pill">Boshlash</a>
+<div class="text-center text-white py-5">
+    <h1 class="fw-bold">AUTO REZYUME – Onlayn rezyume yaratish tizimi</h1>
+    <p class="lead mt-3">Savollarga javob bering — biz siz uchun avtomatik professional CV yaratib beramiz.</p>
+
+    <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg mt-4">
+        Boshlash
+    </a>
 </div>
 {% endblock %}

@@ -1,29 +1,26 @@
 {% extends "base.html" %}
+{% block title %}Kabinet{% endblock %}
+
 {% block content %}
-<div class="container py-4">
-    <h3 class="mb-4">Mening rezyumelarim</h3>
+<h3 class="text-white">Xush kelibsiz, {{ session['user_name'] }}!</h3>
 
-    <a href="{{ url_for('create_resume') }}" class="btn btn-success mb-3">
-        + Yangi rezyume yaratish
-    </a>
+<a href="{{ url_for('create_resume') }}" class="btn btn-success my-3">Yangi rezyume yaratish</a>
 
-    <div class="row">
-        {% for r in resumes %}
-        <div class="col-md-4">
-            <div class="card p-3 mb-3">
-                <h5>{{ r.full_name }}</h5>
-                <p>{{ r.profession }}</p>
+<div class="row">
+    {% for r in resumes %}
+    <div class="col-md-4">
+        <div class="resume-card">
+            <h5>{{ r.full_name }}</h5>
+            <p class="small">{{ r.profession }}</p>
 
-                <a href="{{ url_for('view_resume', id=r.id) }}" class="btn btn-primary btn-sm">
-                    Ko'rish
-                </a>
+            <a href="{{ url_for('view_resume', id=r.id) }}" class="btn btn-primary btn-sm">Ko'rish</a>
+            <a href="{{ url_for('edit_resume', id=r.id) }}" class="btn btn-warning btn-sm">Tahrirlash</a>
 
-                <a href="{{ url_for('download_resume', id=r.id) }}" class="btn btn-outline-success btn-sm">
-                    CV yuklab olish
-                </a>
-            </div>
+            <form action="{{ url_for('delete_resume', id=r.id) }}" method="POST" style="display:inline;">
+                <button class="btn btn-danger btn-sm">O'chirish</button>
+            </form>
         </div>
-        {% endfor %}
     </div>
+    {% endfor %}
 </div>
 {% endblock %}

@@ -1,30 +1,41 @@
 {% extends "base.html" %}
+{% block title %}{{ resume.full_name }}{% endblock %}
+
 {% block content %}
-<div class="container py-4">
-    <div class="card p-4">
-        <h2>{{ resume.full_name }}</h2>
-        <h5>{{ resume.profession }}</h5>
+<div class="card shadow-lg p-4">
 
-        <hr>
+    <div class="row">
+        <div class="col-md-8">
+            <h2>{{ resume.full_name }}</h2>
+            <h5 class="text-muted">{{ resume.profession }}</h5>
 
-        <p><b>Qisqacha:</b> {{ resume.about }}</p>
-        <p><b>Ta'lim:</b> {{ resume.education }}</p>
-        <p><b>Tajriba:</b> {{ resume.experience }}</p>
-        <p><b>Ko'nikmalar:</b> {{ resume.skills }}</p>
+            <h6 class="mt-4 text-secondary">Kasbiy maqsad</h6>
+            <p>{{ resume.career_objective }}</p>
 
-        {% if resume.photo_path %}
-            <img src="/{{ resume.photo_path }}" width="120">
-        {% endif %}
+            <h6 class="text-secondary">Ta'lim</h6>
+            <p>{{ resume.education }}</p>
 
-        <hr>
+            <h6 class="text-secondary">Ish tajribasi</h6>
+            <p>{{ resume.experience }}</p>
 
-        <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">
-            Ortga
-        </a>
+            <h6 class="text-secondary">Ko'nikmalar</h6>
+            <p>{{ resume.skills }}</p>
+        </div>
 
-        <a href="{{ url_for('download_resume', id=resume.id) }}" class="btn btn-primary">
-            CV yuklab olish
-        </a>
+        <div class="col-md-4 text-center">
+            {% if resume.photo_path %}
+                <img src="/{{ resume.photo_path }}" class="responsive-photo">
+            {% else %}
+                <div class="responsive-photo bg-light">Foto yo'q</div>
+            {% endif %}
+        </div>
     </div>
+
+    <hr>
+
+    <a href="{{ url_for('download_resume', id=resume.id) }}" class="btn btn-primary">
+        PDF yuklab olish
+    </a>
+
 </div>
 {% endblock %}

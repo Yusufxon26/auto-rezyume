@@ -1,30 +1,45 @@
 {% extends "base.html" %}
+{% block title %}Rezyume yaratish{% endblock %}
+
 {% block content %}
-<div class="container py-4">
-    <div class="card p-4">
-        <h4 class="mb-3">Professional rezyume yaratish</h4>
+<div class="card shadow-lg">
+    <div class="card-header bg-dark text-white">
+        <h4 class="m-0">Bosqichma-bosqich rezyume yaratish</h4>
+    </div>
+    <div class="card-body">
 
-        <form method="post" enctype="multipart/form-data"
-              action="{{ url_for('create_resume') }}">
+        <form method="POST" enctype="multipart/form-data">
 
-            <input type="text" name="full_name" class="form-control mb-2" placeholder="To'liq ism" required>
-            <input type="text" name="profession" class="form-control mb-2" placeholder="Kasb" required>
+            <h5>1. Shaxsiy ma'lumotlar</h5>
+            <input class="form-control mb-2" name="full_name" placeholder="To'liq ism" required>
+            <input class="form-control mb-2" name="profession" placeholder="Lavozim" required>
+            <input class="form-control mb-2" name="phone" placeholder="Telefon">
+            <input class="form-control mb-2" name="email" placeholder="Email">
+            <input class="form-control mb-2" name="city" placeholder="Shahar">
 
-            <textarea name="about" class="form-control mb-2" placeholder="Qisqacha malumot"></textarea>
-            <textarea name="education" class="form-control mb-2" placeholder="Ta'lim"></textarea>
-            <textarea name="experience" class="form-control mb-2" placeholder="Ish tajribasi"></textarea>
-            <textarea name="skills" class="form-control mb-2" placeholder="Ko'nikmalar"></textarea>
+            <h5 class="mt-3">2. Kasbiy maqsad</h5>
+            <textarea class="form-control mb-2" name="career_objective"></textarea>
 
-            <select name="template" class="form-select mb-3">
-                <option value="classic">Klassik</option>
-                <option value="modern">Zamonaviy</option>
-            </select>
+            <h5 class="mt-3">3. Ta'lim</h5>
+            <textarea class="form-control mb-2" name="education"></textarea>
 
-            <input type="file" name="photo" class="form-control mb-3">
+            <h5 class="mt-3">4. Ish tajribasi</h5>
+            <textarea class="form-control mb-2" name="experience"></textarea>
 
-            <button type="submit" class="btn btn-success">
-                Rezyumeni yaratish
-            </button>
+            <h5 class="mt-3">5. Ko'nikmalar</h5>
+            <textarea class="form-control mb-2" name="skills"></textarea>
+            <textarea class="form-control mb-2" name="soft_skills" placeholder="Soft skills"></textarea>
+
+            <h5 class="mt-3">6. Tillar</h5>
+            <textarea class="form-control mb-2" name="languages"></textarea>
+
+            <h5 class="mt-3">7. Sertifikatlar</h5>
+            <textarea class="form-control mb-2" name="certificates"></textarea>
+
+            <h5 class="mt-3">8. 3×4 foto</h5>
+            <input type="file" class="form-control mb-2" name="photo">
+
+            <button class="btn btn-success w-100 mt-3">Saqlash</button>
 
         </form>
     </div>

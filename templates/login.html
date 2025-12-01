@@ -1,27 +1,28 @@
 {% extends "base.html" %}
-{% block title %}Kirish{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-    <div class="card p-4 shadow mx-auto" style="max-width: 450px;">
-        <h3 class="text-center mb-3">Kirish</h3>
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow-lg p-4">
+            <h4 class="text-center mb-3">Tizimga kirish</h4>
 
-        {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-          {% for category, msg in messages %}
-            <div class="alert alert-{{ 'danger' if category == 'danger' else 'warning' if category == 'warning' else 'success' }}">{{ msg }}</div>
-          {% endfor %}
-        {% endif %}
-        {% endwith %}
+            <form method="POST">
+                <label>Email:</label>
+                <input type="email" name="email" class="form-control mb-3" required>
 
-        <form method="POST">
-            <label>Email</label>
-            <input type="email" name="email" class="form-control mb-3" required>
+                <label>Parol:</label>
+                <input type="password" name="password" class="form-control mb-3" required>
 
-            <label>Parol</label>
-            <input type="password" name="password" class="form-control mb-3" required>
+                <button class="btn btn-primary w-100">Kirish</button>
+            </form>
 
-            <button class="btn btn-primary w-100 py-2">Kirish</button>
+            <div class="text-center mt-3">
+                <a href="{{ url_for('register') }}">Ro'yxatdan o'tish</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
 
             <p class="text-center mt-3">
                 Akkountingiz yo'qmi? <a href="{{ url_for('register') }}">Ro'yxatdan o'tish</a>
