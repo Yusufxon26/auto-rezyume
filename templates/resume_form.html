@@ -1,156 +1,32 @@
 {% extends "base.html" %}
-{% block title %}Yangi rezyume yaratish{% endblock %}
-
 {% block content %}
 <div class="container py-4">
-    <div class="row justify-content-center">
-        <div class="col-lg-10">
-            <div class="card shadow-lg border-0">
-                <div class="card-header text-center" style="background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);">
-                    <h4 class="text-white mb-0">Bosqichma-bosqich professional rezyume yaratish</h4>
-                    <small class="text-light">Savollarga javob bering – tizim avtomatik CV shakllantiradi</small>
-                </div>
-                <div class="card-body" style="background: rgba(255,255,255,0.95);">
+    <div class="card p-4">
+        <h4 class="mb-3">Professional rezyume yaratish</h4>
 
-                    {% with messages = get_flashed_messages(with_categories=true) %}
-                    {% if messages %}
-                        {% for category, message in messages %}
-                            <div class="alert alert-{{ 'danger' if category == 'danger' else 'warning' if category == 'warning' else 'success' }}" role="alert">
-                                {{ message }}
-                            </div>
-                        {% endfor %}
-                    {% endif %}
-                    {% endwith %}
+        <form method="post" enctype="multipart/form-data"
+              action="{{ url_for('create_resume') }}">
 
-                    <form action="{{ url_for('create_resume') }}" method="post" enctype="multipart/form-data" novalidate>
-                        <!-- 1-bosqich: Shaxsiy ma'lumotlar -->
-                        <h5 class="mb-3">1. Shaxsiy ma'lumotlar</h5>
-                        <div class="row g-3 mb-4">
-                            <div class="col-md-6">
-                                <label class="form-label">To'liq ism-familiyangiz *</label>
-                                <input type="text" name="full_name" class="form-control" required
-                                       placeholder="Masalan: Raxmatov Yusuxon">
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label">Tug'ilgan sana</label>
-                                <input type="date" name="birth_date" class="form-control">
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label">Telefon raqami</label>
-                                <input type="tel" name="phone" class="form-control"
-                                       placeholder="Masalan: +998 90 123 45 67">
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label">Email</label>
-                                <input type="email" name="email" class="form-control"
-                                       placeholder="Masalan: yusuf@example.com">
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label">Shahar</label>
-                                <input type="text" name="city" class="form-control"
-                                       placeholder="Masalan: Tashkent">
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label">Telegram / LinkedIn</label>
-                                <input type="text" name="social" class="form-control"
-                                       placeholder="Masalan: @username yoki linkedin.com/in/username">
-                            </div>
-                        </div>
+            <input type="text" name="full_name" class="form-control mb-2" placeholder="To'liq ism" required>
+            <input type="text" name="profession" class="form-control mb-2" placeholder="Kasb" required>
 
-                        <!-- 2-bosqich: Kasbiy yo'nalish -->
-                        <h5 class="mb-3">2. Kasbiy yo'nalish</h5>
-                        <div class="row g-3 mb-4">
-                            <div class="col-md-6">
-                                <label class="form-label">Lavozim / Kasb *</label>
-                                <input type="text" name="profession" class="form-control" required
-                                       placeholder="Masalan: Backend Developer">
-                            </div>
-                        </div>
-                        <div class="mb-4">
-                            <label class="form-label">Kasbiy maqsad (Career Objective)</label>
-                            <textarea name="career_objective" rows="3" class="form-control"
-                                      placeholder="Masalan: 2-3 yillik tajribaga asoslangan professional dasturchi sifatida çalışmak va hudud bilan yangi loyihalar olib borish."></textarea>
-                        </div>
+            <textarea name="about" class="form-control mb-2" placeholder="Qisqacha malumot"></textarea>
+            <textarea name="education" class="form-control mb-2" placeholder="Ta'lim"></textarea>
+            <textarea name="experience" class="form-control mb-2" placeholder="Ish tajribasi"></textarea>
+            <textarea name="skills" class="form-control mb-2" placeholder="Ko'nikmalar"></textarea>
 
-                        <!-- 3-bosqich: Ta'lim -->
-                        <h5 class="mb-3">3. Ta'lim ma'lumotlaringiz</h5>
-                        <div class="mb-4">
-                            <label class="form-label">O'qigan OTM / Litsey / Kollej</label>
-                            <textarea name="education" rows="3" class="form-control"
-                                      placeholder="Masalan: Buxoro davlat texnika universiteti, Axborot texnologiyalari yo'nalishi, 2021–2025."></textarea>
-                        </div>
+            <select name="template" class="form-select mb-3">
+                <option value="classic">Klassik</option>
+                <option value="modern">Zamonaviy</option>
+            </select>
 
-                        <!-- 4-bosqich: Ish tajribasi -->
-                        <h5 class="mb-3">4. Ish tajribangiz</h5>
-                        <div class="mb-4">
-                            <label class="form-label">Oldingi ish joylaringiz, lavozim va vazifalar</label>
-                            <textarea name="experience" rows="4" class="form-control"
-                                      placeholder="Masalan: 2023–2024: Junior Python dasturchi, mas'uliyatlar – API yozish, ma'lumotlar bazasi bilan ishlash, xatoliklarni tuzatish."></textarea>
-                        </div>
+            <input type="file" name="photo" class="form-control mb-3">
 
-                        <!-- 5-bosqich: Ko'nikmalar -->
-                        <h5 class="mb-3">5. Ko'nikmalar va tillar</h5>
-                        <div class="row g-3 mb-4">
-                            <div class="col-md-6">
-                                <label class="form-label">Texnik bilimlar</label>
-                                <textarea name="skills" rows="3" class="form-control"
-                                          placeholder="Masalan: Python, Flask, MySQL, Git, HTML/CSS"></textarea>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label">Shaxsiy soft skill'lar</label>
-                                <textarea name="soft_skills" rows="3" class="form-control"
-                                          placeholder="Masalan: Jamoada ishlash, Tahliliy fikrlash, Muloqat qilish"></textarea>
-                            </div>
-                            <div class="col-12">
-                                <label class="form-label">Tillar</label>
-                                <input type="text" name="languages" class="form-control"
-                                       placeholder="Masalan: O'zbek (ona tili), Ruscha (yuqori daraja), Inglizcha (o'rta)">
-                            </div>
-                        </div>
+            <button type="submit" class="btn btn-success">
+                Rezyumeni yaratish
+            </button>
 
-                        <!-- 6-bosqich: Qo'shimcha -->
-                        <h5 class="mb-3">6. Qo'shimcha ma'lumot</h5>
-                        <div class="row g-3 mb-4">
-                            <div class="col-md-6">
-                                <label class="form-label">Sertifikatlar va kurslar</label>
-                                <textarea name="certificates" rows="2" class="form-control"
-                                          placeholder="Masalan: AWS Certified, Python Master Course (Udemy)"></textarea>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label">Loyihalar va portfolio</label>
-                                <textarea name="projects" rows="2" class="form-control"
-                                          placeholder="Masalan: E-commerce sayt (Flask), Mobile App (React Native)"></textarea>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label">3x4 formatdagi rasm (ixtiyoriy)</label>
-                                <input type="file" name="photo" class="form-control" accept="image/*" onchange="validatePhotoFile(this)">
-                                <div class="form-text">Faqat JPG, JPEG, PNG. Maks. 5MB.</div>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label">Rezyume shabloni</label>
-                                <select name="template" class="form-select">
-                                    <option value="classic">Klassik (oddiy va rasmiy)</option>
-                                    <option value="modern">Zamonaviy (rangli sarlavhalar bilan)</option>
-                                    <option value="minimal">Minimalist (oddiy, toza dizayn)</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- Tugmalar -->
-                        <div class="d-flex justify-content-between">
-                            <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary">
-                                Ortga qaytish
-                            </a>
-                            <button type="submit" class="btn btn-success">
-                                Rezyumeni yaratish
-                            </button>
-                        </div>
-
-                    </form>
-
-                </div>
-            </div>
-        </div>
+        </form>
     </div>
 </div>
 {% endblock %}

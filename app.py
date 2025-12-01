@@ -85,42 +85,32 @@ def login():
 def dashboard():
     if 'user_id' not in session:
         return redirect(url_for('login'))
+
     conn = get_connection()
-    if conn:
-        cursor = conn.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM resumes WHERE user_id=%s", (session['user_id'],))
-        resumes = cursor.fetchall()
-        cursor.close()
-        conn.close()
-        return render_template('dashboard.html', resumes=resumes, user=session['user_name'])
-    return render_template('dashboard.html', resumes=[], user=session.get('user_name', ''))
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM resumes WHERE user_id=%s", (session['user_id'],))
+    resumes = cursor.fetchall()
+    cursor.close()
+    conn.close()
+
+    return render_template('dashboard.html', resumes=resumes)
 
 
-# Yangi rezyume yaratish (savol-javobli forma asosida)
+# Yangi rezyume yaratish
 @app.route('/create_resume', methods=['GET', 'POST'])
 def create_resume():
     if 'user_id' not in session:
         return redirect(url_for('login'))
 
     if request.method == 'POST':
-        full_name        = request.form.get('full_name')
-        profession       = request.form.get('profession')
-        phone            = request.form.get('phone')
-        email            = request.form.get('email')
-        city             = request.form.get('city')
-        birth_date       = request.form.get('birth_date')
-        social           = request.form.get('social')
-        career_objective = request.form.get('career_objective')
-        education        = request.form.get('education')
-        experience       = request.form.get('experience')
-        skills           = request.form.get('skills')
-        soft_skills      = request.form.get('soft_skills')
-        languages        = request.form.get('languages')
-        certificates     = request.form.get('certificates')
-        projects         = request.form.get('projects')
-        template         = request.form.get('template', 'classic')
+        full_name   = request.form['full_name']
+        profession  = request.form['profession']
+        about       = request.form['about']
+        education   = request.form['education']
+        experience  = request.form['experience']
+        skills      = request.form['skills']
+        template    = request.form['template']
 
-        # Rasm yuklash (3x4)
         photo_path = None
         if 'photo' in request.files:
             photo = request.files['photo']
@@ -128,41 +118,25 @@ def create_resume():
                 filename = secure_filename(photo.filename)
                 import uuid
                 filename = f"{uuid.uuid4()}_{filename}"
-                upload_full = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-                photo.save(upload_full)
-                photo_path = f"{app.config['UPLOAD_FOLDER']}/{filename}"
-
-        # Tekshiruvlar
-        if not full_name or not profession:
-            flash("Ism-familiya va lavozim majburiy!", "danger")
-            return render_template('resume_form.html')
+                photo.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                photo_path = f"static/uploads/{filename}"
 
         conn = get_connection()
-        if conn:
-            cursor = conn.cursor()
-            try:
-                cursor.execute("""
-                    INSERT INTO resumes 
-                        (user_id, full_name, profession, phone, email, city, birth_date, 
-                         career_objective, education, experience, skills, soft_skills, 
-                         languages, certificates, projects, template_name, photo_path)
-                    VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
-                """, (
-                    session['user_id'], full_name, profession, phone, email, city, birth_date,
-                    career_objective, education, experience, skills, soft_skills,
-                    languages, certificates, projects, template, photo_path
-                ))
-                conn.commit()
-                flash("Rezyume professional formatda yaratildi!", "success")
-                return redirect(url_for('dashboard'))
-            except Exception as e:
-                conn.rollback()
-                flash(f"Rezyume yaratishda xato: {e}", "danger")
-            finally:
-                cursor.close()
-                conn.close()
+        cursor = conn.cursor()
+        cursor.execute("""
+            INSERT INTO resumes 
+            (user_id, full_name, profession, about, education, experience, skills, template_name, photo_path)
+            VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)
+        """, (
+            session['user_id'], full_name, profession, about,
+            education, experience, skills, template, photo_path
+        ))
+        conn.commit()
+        cursor.close()
+        conn.close()
 
-    # GET – bo'lsa, formani ko'rsatamiz
+        return redirect(url_for('dashboard'))
+
     return render_template('resume_form.html')
 
 
@@ -171,16 +145,18 @@ def create_resume():
 def view_resume(id):
     if 'user_id' not in session:
         return redirect(url_for('login'))
+
     conn = get_connection()
-    if conn:
-        cursor = conn.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM resumes WHERE id=%s", (id,))
-        resume = cursor.fetchone()
-        cursor.close()
-        conn.close()
-        if resume:
-            return render_template('resume_view.html', resume=resume)
-    return redirect(url_for('dashboard'))
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM resumes WHERE id=%s AND user_id=%s", (id, session['user_id']))
+    resume = cursor.fetchone()
+    cursor.close()
+    conn.close()
+
+    if not resume:
+        return "Rezyume topilmadi", 404
+
+    return render_template('resume_view.html', resume=resume)
 
 
 # Rezyumeni tahrirlash
@@ -261,16 +237,15 @@ def download_resume(id):
     conn.close()
 
     if not resume:
-        flash("Rezyume topilmadi!", "danger")
-        return redirect(url_for('dashboard'))
+        return "Rezyume topilmadi", 404
 
     html = render_template("resume_pdf.html", resume=resume)
-    pdf_buffer = BytesIO()
-    pisa.CreatePDF(BytesIO(html.encode("utf-8")), pdf_buffer)
+    pdf = BytesIO()
+    pisa.CreatePDF(BytesIO(html.encode("utf-8")), pdf)
 
-    response = make_response(pdf_buffer.getvalue())
+    response = make_response(pdf.getvalue())
     response.headers["Content-Type"] = "application/pdf"
-    response.headers["Content-Disposition"] = f"attachment; filename=resume_{resume['full_name'].replace(' ', '_')}.pdf"
+    response.headers["Content-Disposition"] = "attachment; filename=cv.pdf"
     return response
 
 
