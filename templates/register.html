@@ -1,38 +1,41 @@
 {% extends "base.html" %}
 
+{% block title %}Ro'yxatdan o'tish{% endblock %}
+
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-6">
-        <div class="card shadow-lg p-4">
-            <h4 class="text-center mb-3">Ro'yxatdan o'tish</h4>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card p-4">
+                <h3 class="text-center mb-3">Ro'yxatdan o'tish</h3>
 
-            <form method="POST">
-                <label>Ismingiz:</label>
-                <input type="text" name="name" class="form-control mb-3" required>
+                <form method="POST">
+                    <div class="mb-3">
+                        <label>Ism</label>
+                        <input type="text" class="form-control" name="name" required>
+                    </div>
 
-                <label>Email:</label>
-                <input type="email" name="email" class="form-control mb-3" required>
+                    <div class="mb-3">
+                        <label>Email</label>
+                        <input type="email" class="form-control" name="email" required>
+                    </div>
 
-                <label>Parol:</label>
-                <input type="password" name="password" class="form-control mb-3" required>
+                    <div class="mb-3">
+                        <label>Parol</label>
+                        <input type="password" class="form-control" name="password" required>
+                    </div>
 
-                <button class="btn btn-success w-100">Ro'yxatdan o'tish</button>
-            </form>
+                    <button type="submit" class="btn btn-primary w-100">Ro'yxatdan o'tish</button>
+                </form>
 
-            <div class="text-center mt-3">
-                <a href="{{ url_for('login') }}">Tizimga kirish</a>
+                <div class="text-center mt-3">
+                    <a href="{{ url_for('login') }}">Kirish</a>
+                </div>
             </div>
         </div>
     </div>
 </div>
 {% endblock %}
-
-            <button class="btn btn-primary w-100 py-2">Ro'yxatdan o'tish</button>
-
-            <p class="text-center mt-3">
-                Akkountingiz bormi? <a href="{{ url_for('login') }}">Kirish</a>
-            </p>
-        </form>
     </div>
 </div>
 {% endblock %}
