@@ -64,8 +64,9 @@
                         <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary">
                             Ortga – rezyumelar ro'yxati
                         </a>
-                        <!-- Keyinchalik shu yerga PDF yuklab olish tugmasi qo'shish mumkin -->
-                        <!-- <a href="#" class="btn btn-primary">CV (PDF) yuklab olish</a> -->
+                        <a href="{{ url_for('download_resume', id=resume.id) }}" class="btn btn-primary">
+                            📄 CV (PDF holatda yuklab olish)
+                        </a>
                     </div>
 
                 </div>

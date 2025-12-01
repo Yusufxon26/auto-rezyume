@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        * {
+            font-family: DejaVu Sans, Arial, sans-serif;
+        }
+        body {
+            font-size: 11px;
+            line-height: 1.4;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            font-size: 18px;
+            margin: 0 0 3px 0;
+            color: #1a1a1a;
+        }
+        h2 {
+            font-size: 14px;
+            margin: 0 0 2px 0;
+            color: #555;
+            font-weight: normal;
+        }
+        h3 {
+            font-size: 12px;
+            margin: 12px 0 6px 0;
+            padding-bottom: 3px;
+            border-bottom: 1px solid #ccc;
+            color: #1a1a1a;
+            font-weight: bold;
+        }
+        .header-info {
+            margin-bottom: 10px;
+            font-size: 10px;
+        }
+        .header-info p {
+            margin: 2px 0;
+        }
+        .section {
+            margin-bottom: 10px;
+        }
+        .section p {
+            margin: 3px 0;
+            text-align: justify;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        td {
+            padding: 3px 5px;
+            vertical-align: top;
+        }
+        .label {
+            font-weight: bold;
+            width: 25%;
+        }
+    </style>
+</head>
+<body>
+
+<h1>{{ resume.full_name }}</h1>
+<h2>{{ resume.profession }}</h2>
+
+<div class="header-info">
+    {% if resume.phone %}<p><strong>Telefon:</strong> {{ resume.phone }}</p>{% endif %}
+    {% if resume.email %}<p><strong>Email:</strong> {{ resume.email }}</p>{% endif %}
+    {% if resume.city %}<p><strong>Shahar:</strong> {{ resume.city }}</p>{% endif %}
+    {% if resume.birth_date %}<p><strong>Tug'ilgan sana:</strong> {{ resume.birth_date }}</p>{% endif %}
+</div>
+
+{% if resume.career_objective %}
+<div class="section">
+    <h3>Kasbiy maqsad</h3>
+    <p>{{ resume.career_objective }}</p>
+</div>
+{% endif %}
+
+{% if resume.education %}
+<div class="section">
+    <h3>Ta'lim</h3>
+    <p>{{ resume.education }}</p>
+</div>
+{% endif %}
+
+{% if resume.experience %}
+<div class="section">
+    <h3>Ish tajribasi</h3>
+    <p>{{ resume.experience }}</p>
+</div>
+{% endif %}
+
+{% if resume.skills or resume.soft_skills %}
+<div class="section">
+    <h3>Ko'nikmalar</h3>
+    {% if resume.skills %}<p><strong>Texnik:</strong> {{ resume.skills }}</p>{% endif %}
+    {% if resume.soft_skills %}<p><strong>Soft skills:</strong> {{ resume.soft_skills }}</p>{% endif %}
+</div>
+{% endif %}
+
+{% if resume.languages %}
+<div class="section">
+    <h3>Tillar</h3>
+    <p>{{ resume.languages }}</p>
+</div>
+{% endif %}
+
+{% if resume.certificates %}
+<div class="section">
+    <h3>Sertifikatlar va kurslar</h3>
+    <p>{{ resume.certificates }}</p>
+</div>
+{% endif %}
+
+{% if resume.projects %}
+<div class="section">
+    <h3>Loyihalar va portfolio</h3>
+    <p>{{ resume.projects }}</p>
+</div>
+{% endif %}
+
+</body>
+</html>

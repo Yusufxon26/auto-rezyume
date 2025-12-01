@@ -1,7 +1,9 @@
-from flask import Flask, render_template, request, redirect, session, url_for, flash
+from flask import Flask, render_template, request, redirect, session, url_for, flash, make_response
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 from database import get_connection
+from xhtml2pdf import pisa
+from io import BytesIO
 import os
 import re
 
@@ -101,13 +103,22 @@ def create_resume():
         return redirect(url_for('login'))
 
     if request.method == 'POST':
-        full_name   = request.form.get('full_name')
-        profession  = request.form.get('profession')
-        about       = request.form.get('about')
-        education   = request.form.get('education')
-        experience  = request.form.get('experience')
-        skills      = request.form.get('skills')
-        template    = request.form.get('template', 'classic')
+        full_name        = request.form.get('full_name')
+        profession       = request.form.get('profession')
+        phone            = request.form.get('phone')
+        email            = request.form.get('email')
+        city             = request.form.get('city')
+        birth_date       = request.form.get('birth_date')
+        social           = request.form.get('social')
+        career_objective = request.form.get('career_objective')
+        education        = request.form.get('education')
+        experience       = request.form.get('experience')
+        skills           = request.form.get('skills')
+        soft_skills      = request.form.get('soft_skills')
+        languages        = request.form.get('languages')
+        certificates     = request.form.get('certificates')
+        projects         = request.form.get('projects')
+        template         = request.form.get('template', 'classic')
 
         # Rasm yuklash (3x4)
         photo_path = None
@@ -121,9 +132,9 @@ def create_resume():
                 photo.save(upload_full)
                 photo_path = f"{app.config['UPLOAD_FOLDER']}/{filename}"
 
-        # Minimal tekshiruvlar
+        # Tekshiruvlar
         if not full_name or not profession:
-            flash("Ism-familiya va kasb nomi majburiy!", "danger")
+            flash("Ism-familiya va lavozim majburiy!", "danger")
             return render_template('resume_form.html')
 
         conn = get_connection()
@@ -132,14 +143,17 @@ def create_resume():
             try:
                 cursor.execute("""
                     INSERT INTO resumes 
-                        (user_id, full_name, profession, about, education, experience, skills, template_name, photo_path)
-                    VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)
+                        (user_id, full_name, profession, phone, email, city, birth_date, 
+                         career_objective, education, experience, skills, soft_skills, 
+                         languages, certificates, projects, template_name, photo_path)
+                    VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
                 """, (
-                    session['user_id'], full_name, profession, about,
-                    education, experience, skills, template, photo_path
+                    session['user_id'], full_name, profession, phone, email, city, birth_date,
+                    career_objective, education, experience, skills, soft_skills,
+                    languages, certificates, projects, template, photo_path
                 ))
                 conn.commit()
-                flash("Rezyume savollarga asoslangan professional formatda yaratildi!", "success")
+                flash("Rezyume professional formatda yaratildi!", "success")
                 return redirect(url_for('dashboard'))
             except Exception as e:
                 conn.rollback()
@@ -231,6 +245,33 @@ def delete_resume(id):
     
     flash("Rezyume o'chirildi!", "success")
     return redirect(url_for('dashboard'))
+
+
+# PDF yuklab olish
+@app.route('/resume/<int:id>/download')
+def download_resume(id):
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    conn = get_connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM resumes WHERE id=%s AND user_id=%s", (id, session['user_id']))
+    resume = cursor.fetchone()
+    cursor.close()
+    conn.close()
+
+    if not resume:
+        flash("Rezyume topilmadi!", "danger")
+        return redirect(url_for('dashboard'))
+
+    html = render_template("resume_pdf.html", resume=resume)
+    pdf_buffer = BytesIO()
+    pisa.CreatePDF(BytesIO(html.encode("utf-8")), pdf_buffer)
+
+    response = make_response(pdf_buffer.getvalue())
+    response.headers["Content-Type"] = "application/pdf"
+    response.headers["Content-Disposition"] = f"attachment; filename=resume_{resume['full_name'].replace(' ', '_')}.pdf"
+    return response
 
 
 # Logout

@@ -32,49 +32,95 @@
                                        placeholder="Masalan: Raxmatov Yusuxon">
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label">Kasbingiz / Lavozimingiz *</label>
-                                <input type="text" name="profession" class="form-control" required
-                                       placeholder="Masalan: Dasturchi (Python Backend Developer)">
+                                <label class="form-label">Tug'ilgan sana</label>
+                                <input type="date" name="birth_date" class="form-control">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Telefon raqami</label>
+                                <input type="tel" name="phone" class="form-control"
+                                       placeholder="Masalan: +998 90 123 45 67">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Email</label>
+                                <input type="email" name="email" class="form-control"
+                                       placeholder="Masalan: yusuf@example.com">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Shahar</label>
+                                <input type="text" name="city" class="form-control"
+                                       placeholder="Masalan: Tashkent">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Telegram / LinkedIn</label>
+                                <input type="text" name="social" class="form-control"
+                                       placeholder="Masalan: @username yoki linkedin.com/in/username">
                             </div>
                         </div>
 
-                        <!-- 2-bosqich: Qisqacha o'zingiz haqingizda -->
-                        <h5 class="mb-3">2. Qisqacha o'zingiz haqingizda</h5>
+                        <!-- 2-bosqich: Kasbiy yo'nalish -->
+                        <h5 class="mb-3">2. Kasbiy yo'nalish</h5>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label">Lavozim / Kasb *</label>
+                                <input type="text" name="profession" class="form-control" required
+                                       placeholder="Masalan: Backend Developer">
+                            </div>
+                        </div>
                         <div class="mb-4">
-                            <label class="form-label">
-                                Bir necha gap bilan o'zingizni tasvirlab bering
-                            </label>
-                            <textarea name="about" rows="3" class="form-control"
-                                      placeholder="Masalan: 2 yillik tajribaga ega, mas'uliyatli va yangi texnologiyalarni tez o'zlashtiradigan dasturchi."></textarea>
+                            <label class="form-label">Kasbiy maqsad (Career Objective)</label>
+                            <textarea name="career_objective" rows="3" class="form-control"
+                                      placeholder="Masalan: 2-3 yillik tajribaga asoslangan professional dasturchi sifatida çalışmak va hudud bilan yangi loyihalar olib borish."></textarea>
                         </div>
 
                         <!-- 3-bosqich: Ta'lim -->
                         <h5 class="mb-3">3. Ta'lim ma'lumotlaringiz</h5>
-                        <div class="mb-3">
+                        <div class="mb-4">
                             <label class="form-label">O'qigan OTM / Litsey / Kollej</label>
                             <textarea name="education" rows="3" class="form-control"
                                       placeholder="Masalan: Buxoro davlat texnika universiteti, Axborot texnologiyalari yo'nalishi, 2021–2025."></textarea>
                         </div>
 
                         <!-- 4-bosqich: Ish tajribasi -->
-                        <h5 class="mb-3">4. Ish tajribangiz (bo'lsa)</h5>
-                        <div class="mb-3">
+                        <h5 class="mb-3">4. Ish tajribangiz</h5>
+                        <div class="mb-4">
                             <label class="form-label">Oldingi ish joylaringiz, lavozim va vazifalar</label>
                             <textarea name="experience" rows="4" class="form-control"
-                                      placeholder="Masalan: '2023–2024: Junior Python dasturchi, mas'uliyatlar – API yozish, ma'lumotlar bazasi bilan ishlash, xatoliklarni tuzatish va hokazo.'"></textarea>
+                                      placeholder="Masalan: 2023–2024: Junior Python dasturchi, mas'uliyatlar – API yozish, ma'lumotlar bazasi bilan ishlash, xatoliklarni tuzatish."></textarea>
                         </div>
 
                         <!-- 5-bosqich: Ko'nikmalar -->
-                        <h5 class="mb-3">5. Ko'nikmalar (skills)</h5>
-                        <div class="mb-4">
-                            <label class="form-label">Texnik va shaxsiy ko'nikmalaringizni yozing</label>
-                            <textarea name="skills" rows="3" class="form-control"
-                                      placeholder="Masalan: Python, Flask, MySQL, Git, HTML/CSS, Jamoada ishlash, Tahliliy fikrlash."></textarea>
+                        <h5 class="mb-3">5. Ko'nikmalar va tillar</h5>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label">Texnik bilimlar</label>
+                                <textarea name="skills" rows="3" class="form-control"
+                                          placeholder="Masalan: Python, Flask, MySQL, Git, HTML/CSS"></textarea>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Shaxsiy soft skill'lar</label>
+                                <textarea name="soft_skills" rows="3" class="form-control"
+                                          placeholder="Masalan: Jamoada ishlash, Tahliliy fikrlash, Muloqat qilish"></textarea>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">Tillar</label>
+                                <input type="text" name="languages" class="form-control"
+                                       placeholder="Masalan: O'zbek (ona tili), Ruscha (yuqori daraja), Inglizcha (o'rta)">
+                            </div>
                         </div>
 
-                        <!-- 6-bosqich: Foto va shablon -->
-                        <h5 class="mb-3">6. 3x4 foto va dizayn</h5>
+                        <!-- 6-bosqich: Qo'shimcha -->
+                        <h5 class="mb-3">6. Qo'shimcha ma'lumot</h5>
                         <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label">Sertifikatlar va kurslar</label>
+                                <textarea name="certificates" rows="2" class="form-control"
+                                          placeholder="Masalan: AWS Certified, Python Master Course (Udemy)"></textarea>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Loyihalar va portfolio</label>
+                                <textarea name="projects" rows="2" class="form-control"
+                                          placeholder="Masalan: E-commerce sayt (Flask), Mobile App (React Native)"></textarea>
+                            </div>
                             <div class="col-md-6">
                                 <label class="form-label">3x4 formatdagi rasm (ixtiyoriy)</label>
                                 <input type="file" name="photo" class="form-control" accept="image/*" onchange="validatePhotoFile(this)">
