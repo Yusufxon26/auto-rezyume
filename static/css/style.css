@@ -28,7 +28,11 @@ input:focus, textarea:focus, select:focus {
 .card {
     border-radius: 15px;
     border: none;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+}
+
+.section-header h5 {
+    border-left: 4px solid #0f2027;
+    padding-left: 12px;
 }
 
 .responsive-photo {

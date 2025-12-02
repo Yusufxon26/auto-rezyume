@@ -2,22 +2,295 @@
 <html>
 <head>
     <meta charset="utf-8">
+    <title>{{ resume.full_name }} - CV</title>
     <style>
-        * {
-            font-family: DejaVu Sans, Arial, sans-serif;
+        @page {
+            size: A4;
+            margin: 1cm;
         }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
-            font-size: 11px;
+            font-family: 'DejaVu Sans', Arial, sans-serif;
+            font-size: 11pt;
             line-height: 1.4;
             color: #333;
-            margin: 0;
+        }
+        
+        .container {
+            max-width: 100%;
+        }
+        
+        /* HEADER */
+        .cv-header {
+            background: linear-gradient(135deg, #0f2027, #203a43);
+            color: white;
             padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
         }
-        h1 {
-            font-size: 18px;
-            margin: 0 0 3px 0;
-            color: #1a1a1a;
+        
+        .cv-header h1 {
+            font-size: 24pt;
+            margin-bottom: 5px;
         }
+        
+        .cv-header h2 {
+            font-size: 16pt;
+            font-weight: normal;
+            opacity: 0.9;
+        }
+        
+        /* LAYOUT */
+        .cv-body {
+            display: table;
+            width: 100%;
+        }
+        
+        .cv-main {
+            display: table-cell;
+            width: 65%;
+            padding-right: 15px;
+            vertical-align: top;
+        }
+        
+        .cv-sidebar {
+            display: table-cell;
+            width: 35%;
+            padding-left: 15px;
+            border-left: 2px solid #ddd;
+            vertical-align: top;
+        }
+        
+        /* SECTIONS */
+        .cv-section {
+            margin-bottom: 20px;
+            page-break-inside: avoid;
+        }
+        
+        .section-title {
+            font-size: 14pt;
+            font-weight: bold;
+            color: #0f2027;
+            border-bottom: 2px solid #0f2027;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+        }
+        
+        .cv-item {
+            margin-bottom: 12px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-left: 3px solid #0f2027;
+        }
+        
+        .cv-item h3 {
+            font-size: 12pt;
+            margin-bottom: 3px;
+            color: #0f2027;
+        }
+        
+        .cv-item .meta {
+            font-size: 10pt;
+            color: #666;
+            margin-bottom: 5px;
+            font-style: italic;
+        }
+        
+        .cv-item p {
+            font-size: 10pt;
+            white-space: pre-line;
+        }
+        
+        /* SIDEBAR */
+        .sidebar-section {
+            margin-bottom: 15px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+        
+        .sidebar-title {
+            font-size: 12pt;
+            font-weight: bold;
+            color: #203a43;
+            margin-bottom: 8px;
+        }
+        
+        .sidebar-section p {
+            font-size: 9pt;
+            margin-bottom: 3px;
+        }
+        
+        /* PHOTO */
+        .photo-container {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        
+        .photo-container img {
+            max-width: 120px;
+            max-height: 160px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        /* CONTACT INFO */
+        .contact-item {
+            font-size: 9pt;
+            margin-bottom: 5px;
+        }
+        
+        .contact-item strong {
+            color: #0f2027;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        
+        <!-- HEADER -->
+        <div class="cv-header">
+            <h1>{{ resume.full_name }}</h1>
+            <h2>{{ resume.profession }}</h2>
+        </div>
+
+        <div class="cv-body">
+            
+            <!-- MAIN CONTENT (Chap ustun) -->
+            <div class="cv-main">
+                
+                <!-- Kasbiy maqsad -->
+                {% if resume.career_objective %}
+                <div class="cv-section">
+                    <div class="section-title">Kasbiy maqsad</div>
+                    <p>{{ resume.career_objective }}</p>
+                </div>
+                {% endif %}
+
+                <!-- Ish tajribasi -->
+                {% if resume.work_company %}
+                <div class="cv-section">
+                    <div class="section-title">Ish tajribasi</div>
+                    <div class="cv-item">
+                        <h3>{{ resume.work_position }}</h3>
+                        <div class="meta">{{ resume.work_company }} | {{ resume.work_years }}</div>
+                        <p>{{ resume.work_duties }}</p>
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Ta'lim -->
+                {% if resume.education_institution %}
+                <div class="cv-section">
+                    <div class="section-title">Ta'lim</div>
+                    <div class="cv-item">
+                        <h3>{{ resume.education_degree }} - {{ resume.education_field }}</h3>
+                        <div class="meta">{{ resume.education_institution }} | {{ resume.education_years }}</div>
+                        {% if resume.education_details %}
+                        <p>{{ resume.education_details }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Ko'nikmalar -->
+                {% if resume.technical_skills or resume.soft_skills %}
+                <div class="cv-section">
+                    <div class="section-title">Ko'nikmalar</div>
+                    {% if resume.technical_skills %}
+                    <p><strong>Texnik:</strong> {{ resume.technical_skills }}</p>
+                    {% endif %}
+                    {% if resume.soft_skills %}
+                    <p><strong>Shaxsiy:</strong> {{ resume.soft_skills }}</p>
+                    {% endif %}
+                </div>
+                {% endif %}
+
+                <!-- Loyihalar -->
+                {% if resume.projects %}
+                <div class="cv-section">
+                    <div class="section-title">Loyihalar</div>
+                    <p>{{ resume.projects }}</p>
+                </div>
+                {% endif %}
+
+                <!-- Sertifikatlar -->
+                {% if resume.certificates %}
+                <div class="cv-section">
+                    <div class="section-title">Sertifikatlar</div>
+                    <p>{{ resume.certificates }}</p>
+                </div>
+                {% endif %}
+
+                <!-- Yutuqlar -->
+                {% if resume.achievements %}
+                <div class="cv-section">
+                    <div class="section-title">Yutuqlar</div>
+                    <p>{{ resume.achievements }}</p>
+                </div>
+                {% endif %}
+
+            </div>
+
+            <!-- SIDEBAR (O'ng ustun) -->
+            <div class="cv-sidebar">
+                
+                <!-- Foto -->
+                {% if resume.photo_path %}
+                <div class="photo-container">
+                    <img src="{{ url_for('static', filename='uploads/' + resume.photo_path, _external=True) }}" alt="Photo">
+                </div>
+                {% endif %}
+
+                <!-- Aloqa -->
+                <div class="sidebar-section">
+                    <div class="sidebar-title">Aloqa</div>
+                    {% if resume.phone %}
+                    <div class="contact-item"><strong>Tel:</strong> {{ resume.phone }}</div>
+                    {% endif %}
+                    {% if resume.email %}
+                    <div class="contact-item"><strong>Email:</strong> {{ resume.email }}</div>
+                    {% endif %}
+                    {% if resume.city %}
+                    <div class="contact-item"><strong>Shahar:</strong> {{ resume.city }}</div>
+                    {% endif %}
+                    {% if resume.address %}
+                    <div class="contact-item"><strong>Manzil:</strong> {{ resume.address }}</div>
+                    {% endif %}
+                    {% if resume.birth_date %}
+                    <div class="contact-item"><strong>Tug'ilgan:</strong> {{ resume.birth_date }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- Tillar -->
+                {% if resume.languages %}
+                <div class="sidebar-section">
+                    <div class="sidebar-title">Tillar</div>
+                    <p>{{ resume.languages }}</p>
+                </div>
+                {% endif %}
+
+                <!-- Qiziqishlar -->
+                {% if resume.interests %}
+                <div class="sidebar-section">
+                    <div class="sidebar-title">Qiziqishlar</div>
+                    <p>{{ resume.interests }}</p>
+                </div>
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+</body>
+</html>
         h2 {
             font-size: 14px;
             margin: 0 0 2px 0;
