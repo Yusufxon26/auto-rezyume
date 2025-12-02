@@ -6,25 +6,28 @@
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-5">
-            <div class="card p-4">
-                <h3 class="text-center mb-3">Tizimga kirish</h3>
-
-                <form method="POST">
-                    <div class="mb-3">
-                        <label>Email</label>
-                        <input type="email" class="form-control" name="email" required>
+            <div class="card shadow-lg border-0">
+                <div class="card-body p-4">
+                    <h3 class="text-center mb-4">Kirish</h3>
+                    
+                    <form method="POST">
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" name="email" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Parol</label>
+                            <input type="password" class="form-control" name="password" required>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary w-100 py-2">Kirish</button>
+                    </form>
+                    
+                    <div class="text-center mt-3">
+                        <span class="text-muted">Akkountingiz yo'qmi?</span>
+                        <a href="{{ url_for('register') }}">Ro'yxatdan o'tish</a>
                     </div>
-
-                    <div class="mb-3">
-                        <label>Parol</label>
-                        <input type="password" class="form-control" name="password" required>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary w-100">Kirish</button>
-                </form>
-
-                <div class="text-center mt-3">
-                    <a href="{{ url_for('register') }}">Ro'yxatdan o'tish</a>
                 </div>
             </div>
         </div>

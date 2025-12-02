@@ -1,41 +1,185 @@
 {% extends "base.html" %}
-{% block title %}{{ resume.full_name }}{% endblock %}
+{% block title %}{{ resume.full_name }} - Rezyume{% endblock %}
 
 {% block content %}
-<div class="card shadow-lg p-4">
+<div class="container mt-5 mb-5">
+    <div class="card shadow-lg border-0">
+        <div class="card-body p-5">
 
-    <div class="row">
-        <div class="col-md-8">
-            <h2>{{ resume.full_name }}</h2>
-            <h5 class="text-muted">{{ resume.profession }}</h5>
+            <div class="row mb-5">
+                <!-- Profile Section -->
+                <div class="col-md-3 text-center mb-4">
+                    {% if resume.photo_path %}
+                        <img src="{{ url_for('static', filename='uploads/' + resume.photo_path) }}" 
+                             class="img-fluid rounded-circle border border-4" style="max-width: 200px; object-fit: cover;">
+                    {% else %}
+                        <div class="bg-light rounded-circle d-flex align-items-center justify-content-center" 
+                             style="width: 200px; height: 200px; margin: 0 auto;">
+                            <span class="text-muted">Rasm yo'q</span>
+                        </div>
+                    {% endif %}
+                </div>
 
-            <h6 class="mt-4 text-secondary">Kasbiy maqsad</h6>
-            <p>{{ resume.career_objective }}</p>
+                <!-- Header Info -->
+                <div class="col-md-9">
+                    <h1 class="display-4 fw-bold">{{ resume.full_name }}</h1>
+                    <h3 class="text-primary mb-3">{{ resume.profession }}</h3>
 
-            <h6 class="text-secondary">Ta'lim</h6>
-            <p>{{ resume.education }}</p>
+                    <div class="row text-muted small">
+                        {% if resume.phone %}
+                        <div class="col-md-6 mb-2">
+                            <strong>📱 Telefon:</strong> {{ resume.phone }}
+                        </div>
+                        {% endif %}
+                        {% if resume.email %}
+                        <div class="col-md-6 mb-2">
+                            <strong>✉️ Email:</strong> {{ resume.email }}
+                        </div>
+                        {% endif %}
+                        {% if resume.city %}
+                        <div class="col-md-6 mb-2">
+                            <strong>📍 Shahar:</strong> {{ resume.city }}
+                        </div>
+                        {% endif %}
+                        {% if resume.address %}
+                        <div class="col-md-6 mb-2">
+                            <strong>🏠 Manzil:</strong> {{ resume.address }}
+                        </div>
+                        {% endif %}
+                        {% if resume.birth_date %}
+                        <div class="col-md-6 mb-2">
+                            <strong>🎂 Tug'ilgan sana:</strong> {{ resume.birth_date }}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
 
-            <h6 class="text-secondary">Ish tajribasi</h6>
-            <p>{{ resume.experience }}</p>
+            <hr class="my-5">
 
-            <h6 class="text-secondary">Ko'nikmalar</h6>
-            <p>{{ resume.skills }}</p>
-        </div>
-
-        <div class="col-md-4 text-center">
-            {% if resume.photo_path %}
-                <img src="/{{ resume.photo_path }}" class="responsive-photo">
-            {% else %}
-                <div class="responsive-photo bg-light">Foto yo'q</div>
+            <!-- Career Objective -->
+            {% if resume.career_objective %}
+            <section class="mb-5">
+                <h4 class="fw-bold mb-3">📋 Kasbiy Maqsad</h4>
+                <p>{{ resume.career_objective }}</p>
+            </section>
             {% endif %}
+
+            <hr class="my-5">
+
+            <!-- Education -->
+            {% if resume.education_institution %}
+            <section class="mb-5">
+                <h4 class="fw-bold mb-3">🎓 Ta'lim</h4>
+                <div class="card border-start border-primary border-5 mb-3">
+                    <div class="card-body">
+                        <h6 class="card-title">{{ resume.education_institution }}</h6>
+                        <p class="card-text text-muted mb-2">
+                            <strong>{{ resume.education_degree }}</strong> - {{ resume.education_field }}
+                        </p>
+                        <small class="text-secondary">📅 {{ resume.education_years }}</small>
+                        {% if resume.education_details %}
+                        <p class="card-text mt-2">{{ resume.education_details }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </section>
+            {% endif %}
+
+            <hr class="my-5">
+
+            <!-- Work Experience -->
+            {% if resume.work_company %}
+            <section class="mb-5">
+                <h4 class="fw-bold mb-3">💼 Ish Tajribasi</h4>
+                <div class="card border-start border-success border-5 mb-3">
+                    <div class="card-body">
+                        <h6 class="card-title">{{ resume.work_company }}</h6>
+                        <p class="card-text mb-2">
+                            <strong>{{ resume.work_position }}</strong>
+                        </p>
+                        <small class="text-secondary">📅 {{ resume.work_years }}</small>
+                        {% if resume.work_duties %}
+                        <p class="card-text mt-2">{{ resume.work_duties }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </section>
+            {% endif %}
+
+            <hr class="my-5">
+
+            <!-- Skills -->
+            <div class="row">
+                {% if resume.technical_skills %}
+                <div class="col-md-6 mb-4">
+                    <h5 class="fw-bold mb-3">⚙️ Texnik Ko'nikmalar</h5>
+                    <p>{{ resume.technical_skills }}</p>
+                </div>
+                {% endif %}
+                {% if resume.soft_skills %}
+                <div class="col-md-6 mb-4">
+                    <h5 class="fw-bold mb-3">🤝 Yumshoq Ko'nikmalar</h5>
+                    <p>{{ resume.soft_skills }}</p>
+                </div>
+                {% endif %}
+            </div>
+
+            <hr class="my-5">
+
+            <!-- Languages -->
+            {% if resume.languages %}
+            <section class="mb-5">
+                <h4 class="fw-bold mb-3">🌍 Tillar</h4>
+                <p>{{ resume.languages }}</p>
+            </section>
+            {% endif %}
+
+            <!-- Certificates -->
+            {% if resume.certificates %}
+            <section class="mb-5">
+                <h4 class="fw-bold mb-3">📜 Sertifikatlar</h4>
+                <p>{{ resume.certificates }}</p>
+            </section>
+            {% endif %}
+
+            <!-- Projects -->
+            {% if resume.projects %}
+            <section class="mb-5">
+                <h4 class="fw-bold mb-3">💻 Loyihalar</h4>
+                <p>{{ resume.projects }}</p>
+            </section>
+            {% endif %}
+
+            <!-- Achievements -->
+            {% if resume.achievements %}
+            <section class="mb-5">
+                <h4 class="fw-bold mb-3">🏆 Erishganlari</h4>
+                <p>{{ resume.achievements }}</p>
+            </section>
+            {% endif %}
+
+            <!-- Interests -->
+            {% if resume.interests %}
+            <section class="mb-5">
+                <h4 class="fw-bold mb-3">⭐ Qiziqishlari</h4>
+                <p>{{ resume.interests }}</p>
+            </section>
+            {% endif %}
+
+            <hr class="my-5">
+
+            <!-- Action Buttons -->
+            <div class="d-flex gap-2">
+                <a href="{{ url_for('download_resume', id=resume.id) }}" class="btn btn-primary btn-lg">
+                    📥 PDF Yuklab Olish
+                </a>
+                <a href="{{ url_for('dashboard') }}" class="btn btn-secondary btn-lg">
+                    ← Orqaga
+                </a>
+            </div>
+
         </div>
     </div>
-
-    <hr>
-
-    <a href="{{ url_for('download_resume', id=resume.id) }}" class="btn btn-primary">
-        PDF yuklab olish
-    </a>
-
 </div>
 {% endblock %}

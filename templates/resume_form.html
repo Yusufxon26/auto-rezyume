@@ -2,46 +2,187 @@
 {% block title %}Rezyume yaratish{% endblock %}
 
 {% block content %}
-<div class="card shadow-lg">
-    <div class="card-header bg-dark text-white">
-        <h4 class="m-0">Bosqichma-bosqich rezyume yaratish</h4>
-    </div>
-    <div class="card-body">
+<div class="container mt-5 mb-5">
+    <div class="card shadow-lg border-0">
+        <div class="card-header bg-gradient" style="background: linear-gradient(135deg, #0f2027, #203a43);">
+            <h3 class="text-white m-0">🎯 Yangi Rezyume Yaratish</h3>
+            <small class="text-white-50">Barcha ma'lumotlarni to'liq kiriting</small>
+        </div>
 
-        <form method="POST" enctype="multipart/form-data">
+        <div class="card-body p-4">
+            <form method="POST" enctype="multipart/form-data">
 
-            <h5>1. Shaxsiy ma'lumotlar</h5>
-            <input class="form-control mb-2" name="full_name" placeholder="To'liq ism" required>
-            <input class="form-control mb-2" name="profession" placeholder="Lavozim" required>
-            <input class="form-control mb-2" name="phone" placeholder="Telefon">
-            <input class="form-control mb-2" name="email" placeholder="Email">
-            <input class="form-control mb-2" name="city" placeholder="Shahar">
+                <!-- Section 1: Personal Information -->
+                <div class="section-divider mb-4">
+                    <h5 class="fw-bold">👤 Shaxsiy Ma'lumotlar</h5>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">To'liq Ism *</label>
+                        <input type="text" class="form-control" name="full_name" placeholder="Foydalanuvchi Ismi" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Lavozimi *</label>
+                        <input type="text" class="form-control" name="profession" placeholder="Masalan: Web Developer" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Telefon</label>
+                        <input type="tel" class="form-control" name="phone" placeholder="+998 90 123 45 67">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" name="email" placeholder="email@example.com">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Shahar</label>
+                        <input type="text" class="form-control" name="city" placeholder="Masalan: Tashkent">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Manzil</label>
+                        <input type="text" class="form-control" name="address" placeholder="To'liq manzil">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Tug'ilgan Sana</label>
+                        <input type="date" class="form-control" name="birth_date">
+                    </div>
+                </div>
 
-            <h5 class="mt-3">2. Kasbiy maqsad</h5>
-            <textarea class="form-control mb-2" name="career_objective"></textarea>
+                <!-- Section 2: Career Objective -->
+                <div class="section-divider mb-4 mt-4">
+                    <h5 class="fw-bold">📋 Kasbiy Maqsad</h5>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Maqsad va Fikringiz</label>
+                    <textarea class="form-control" name="career_objective" rows="3" 
+                              placeholder="O'zingizni qanday mutaxassislar sifatida ko'rasiz?"></textarea>
+                </div>
 
-            <h5 class="mt-3">3. Ta'lim</h5>
-            <textarea class="form-control mb-2" name="education"></textarea>
+                <!-- Section 3: Education -->
+                <div class="section-divider mb-4 mt-4">
+                    <h5 class="fw-bold">🎓 Ta'lim</h5>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">O'quv Muassasa</label>
+                        <input type="text" class="form-control" name="education_institution" placeholder="Universitet, Maktab">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Diplom / Daraja</label>
+                        <input type="text" class="form-control" name="education_degree" placeholder="Bakalavr, Magistr">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Yo'nalishi</label>
+                        <input type="text" class="form-control" name="education_field" placeholder="Kompyuter Fanlar">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Yillar</label>
+                        <input type="text" class="form-control" name="education_years" placeholder="2018-2022">
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label class="form-label">Qo'shimcha Tafsilot</label>
+                        <textarea class="form-control" name="education_details" rows="2" placeholder="Fanni o'qigan fanlari va erishganlari"></textarea>
+                    </div>
+                </div>
 
-            <h5 class="mt-3">4. Ish tajribasi</h5>
-            <textarea class="form-control mb-2" name="experience"></textarea>
+                <!-- Section 4: Work Experience -->
+                <div class="section-divider mb-4 mt-4">
+                    <h5 class="fw-bold">💼 Ish Tajribasi</h5>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Kompaniya</label>
+                        <input type="text" class="form-control" name="work_company" placeholder="Kompaniya nomi">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Lavozimi</label>
+                        <input type="text" class="form-control" name="work_position" placeholder="Lavozim">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Ishlagan Vaqt</label>
+                        <input type="text" class="form-control" name="work_years" placeholder="2022-2024">
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label class="form-label">Ish Burchalarim</label>
+                        <textarea class="form-control" name="work_duties" rows="3" placeholder="Qilgan ishlar, mas'uliyatlar, erishganlari"></textarea>
+                    </div>
+                </div>
 
-            <h5 class="mt-3">5. Ko'nikmalar</h5>
-            <textarea class="form-control mb-2" name="skills"></textarea>
-            <textarea class="form-control mb-2" name="soft_skills" placeholder="Soft skills"></textarea>
+                <!-- Section 5: Skills -->
+                <div class="section-divider mb-4 mt-4">
+                    <h5 class="fw-bold">⚡ Ko'nikmalar</h5>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Texnik Ko'nikmalar</label>
+                        <textarea class="form-control" name="technical_skills" rows="2" placeholder="JavaScript, Python, React, vb"></textarea>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Yumshoq Ko'nikmalar</label>
+                        <textarea class="form-control" name="soft_skills" rows="2" placeholder="Hamkorlik, Yetakchilik, Boshqa"></textarea>
+                    </div>
+                </div>
 
-            <h5 class="mt-3">6. Tillar</h5>
-            <textarea class="form-control mb-2" name="languages"></textarea>
+                <!-- Section 6: Languages -->
+                <div class="section-divider mb-4 mt-4">
+                    <h5 class="fw-bold">🌍 Tillar</h5>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Bilgan Tillar</label>
+                    <textarea class="form-control" name="languages" rows="2" placeholder="O'zbek - Ona tili, Rus - Yuqori, Ingliz - Orta"></textarea>
+                </div>
 
-            <h5 class="mt-3">7. Sertifikatlar</h5>
-            <textarea class="form-control mb-2" name="certificates"></textarea>
+                <!-- Section 7: Certificates & Achievements -->
+                <div class="section-divider mb-4 mt-4">
+                    <h5 class="fw-bold">📜 Sertifikatlar va Yutuqlar</h5>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Sertifikatlar</label>
+                        <textarea class="form-control" name="certificates" rows="2" placeholder="Olgan sertifikatlar, kurslar"></textarea>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Loyihalar va Yutuqlar</label>
+                        <textarea class="form-control" name="projects" rows="2" placeholder="Amalga oshirgan loyihalar"></textarea>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Erishganlari</label>
+                        <textarea class="form-control" name="achievements" rows="2" placeholder="Mukofotlar, medallari"></textarea>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Qiziqishlari</label>
+                        <textarea class="form-control" name="interests" rows="2" placeholder="Shaxsiy qiziqishlari, hobi"></textarea>
+                    </div>
+                </div>
 
-            <h5 class="mt-3">8. 3×4 foto</h5>
-            <input type="file" class="form-control mb-2" name="photo">
+                <!-- Section 8: Photo -->
+                <div class="section-divider mb-4 mt-4">
+                    <h5 class="fw-bold">📸 Rasm Yuklash</h5>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Profilingiz Rasmi (JPG, PNG, JPEG - max 5MB)</label>
+                    <input type="file" class="form-control" name="photo" accept="image/*">
+                    <small class="text-muted">3×4 formatda rasm yuklang</small>
+                </div>
 
-            <button class="btn btn-success w-100 mt-3">Saqlash</button>
+                <!-- Submit Button -->
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-success btn-lg w-100">
+                        ✓ Rezyumeni Saqlash
+                    </button>
+                </div>
 
-        </form>
+            </form>
+        </div>
     </div>
 </div>
+
+<style>
+    .section-divider {
+        border-bottom: 2px solid #dee2e6;
+        padding-bottom: 0.5rem;
+    }
+    .bg-gradient {
+        background: linear-gradient(135deg, #0f2027, #203a43) !important;
+    }
+</style>
 {% endblock %}
