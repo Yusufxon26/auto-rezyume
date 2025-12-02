@@ -5,15 +5,19 @@ from database import get_connection
 import os
 import re
 from datetime import datetime
+import uuid
 
 app = Flask(__name__)
 app.secret_key = "auto_rezyume_secret_key_2025"
+
+# ⚠️ HAJM CHEKLOVLARINI OSHIRISH - Entity too large xatosini hal qilish
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB
+app.config['MAX_FORM_MEMORY_SIZE'] = 16 * 1024 * 1024  # 16MB
 
 # Upload settings
 UPLOAD_FOLDER = "static/uploads"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
-app.config["MAX_CONTENT_LENGTH"] = 5 * 1024 * 1024  # 5MB
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
@@ -148,13 +152,21 @@ def create_resume():
         
         template = request.form.get('template', 'professional')
         
-        # Rasm yuklash
+        # Rasm yuklash - Hajm tekshirish bilan
         photo_path = None
         if 'photo' in request.files:
             photo = request.files['photo']
-            if photo and allowed_file(photo.filename):
+            if photo and photo.filename and allowed_file(photo.filename):
+                # Fayl hajmini tekshirish
+                photo.seek(0, os.SEEK_END)
+                file_length = photo.tell()
+                photo.seek(0)
+                
+                if file_length > 5 * 1024 * 1024:  # 5MB
+                    flash("Rasm hajmi 5MB dan katta bo'lmasligi kerak!", "warning")
+                    return render_template('resume_form.html')
+                
                 filename = secure_filename(photo.filename)
-                import uuid
                 filename = f"{uuid.uuid4()}_{filename}"
                 photo.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
                 photo_path = f"uploads/{filename}"
