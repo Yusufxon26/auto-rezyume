@@ -244,6 +244,11 @@ def download_resume(id):
                 from xhtml2pdf import pisa
                 from io import BytesIO
                 
+                # ⚠️ Rasm yo'lini to'g'rilash - file:// protokoli uchun
+                if resume['photo_path']:
+                    base_dir = os.path.abspath(os.path.dirname(__file__))
+                    resume['photo_path'] = os.path.join(base_dir, 'static', resume['photo_path']).replace('\\', '/')
+                
                 html = render_template("resume_pdf.html", resume=resume)
                 pdf = BytesIO()
                 pisa.CreatePDF(BytesIO(html.encode("utf-8")), pdf)
