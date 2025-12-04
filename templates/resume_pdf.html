@@ -192,9 +192,9 @@
         <div class="cv-sidebar">
             
             <!-- FOTO -->
-            {% if resume.photo_path %}
+            {% if resume.full_photo_path %}
             <div class="photo-section">
-                <img src="file:///{{ resume.photo_path | replace('\\', '/') }}" alt="Photo">
+                <img src="file://{{ resume.full_photo_path }}" alt="Photo">
             </div>
             {% endif %}
             
@@ -207,16 +207,22 @@
             <!-- MA'LUMOTLAR -->
             <div class="sidebar-section">
                 <h3>Ma'lumotlar</h3>
-                {% if resume.birth_date %}
+                {% if resume.age %}
                 <div class="contact-item">
                     <strong>Yosh:</strong>
-                    {{ (2024 - resume.birth_date[:4]|int) if resume.birth_date else '' }}
+                    {{ resume.age }}
                 </div>
                 {% endif %}
                 {% if resume.city %}
                 <div class="contact-item">
                     <strong>Manzil:</strong>
                     {{ resume.city }}
+                </div>
+                {% endif %}
+                {% if resume.address %}
+                <div class="contact-item">
+                    <strong>To'liq manzil:</strong>
+                    {{ resume.address }}
                 </div>
                 {% endif %}
             </div>

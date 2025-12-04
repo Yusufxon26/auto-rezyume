@@ -243,11 +243,29 @@ def download_resume(id):
             try:
                 from xhtml2pdf import pisa
                 from io import BytesIO
+                from datetime import datetime
                 
-                # ⚠️ Rasm yo'lini to'g'rilash - file:// protokoli uchun
-                if resume['photo_path']:
+                # ⚠️ BIRTH_DATE NI TO'G'RILASH - String yoki Date object bo'lishi mumkin
+                if resume.get('birth_date'):
+                    if isinstance(resume['birth_date'], str):
+                        # Agar string bo'lsa
+                        birth_year = int(resume['birth_date'][:4])
+                    else:
+                        # Agar date obyekt bo'lsa
+                        birth_year = resume['birth_date'].year
+                    
+                    current_year = datetime.now().year
+                    resume['age'] = current_year - birth_year
+                else:
+                    resume['age'] = None
+                
+                # ⚠️ RASM YO'LINI TO'G'RILASH
+                if resume.get('photo_path'):
                     base_dir = os.path.abspath(os.path.dirname(__file__))
-                    resume['photo_path'] = os.path.join(base_dir, 'static', resume['photo_path']).replace('\\', '/')
+                    full_photo_path = os.path.join(base_dir, 'static', resume['photo_path'])
+                    resume['full_photo_path'] = full_photo_path
+                else:
+                    resume['full_photo_path'] = None
                 
                 html = render_template("resume_pdf.html", resume=resume)
                 pdf = BytesIO()
@@ -257,10 +275,13 @@ def download_resume(id):
                 response.headers["Content-Type"] = "application/pdf"
                 response.headers["Content-Disposition"] = f"attachment; filename=CV_{resume['full_name']}.pdf"
                 return response
+                
             except Exception as e:
                 flash(f"PDF yaratishda xato: {e}", "danger")
+                print(f"PDF xatosi: {e}")  # Debug uchun
                 return redirect(url_for('view_resume', id=id))
     
+    flash("Rezyume topilmadi!", "warning")
     return redirect(url_for('dashboard'))
 
 
