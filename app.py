@@ -240,8 +240,9 @@ def download_resume(id):
         
         if resume:
             try:
-                from weasyprint import HTML
-                from datetime import datetime, date
+                from xhtml2pdf import pisa
+                from io import BytesIO
+                from datetime import date
                 
                 # ⚠️ YOSH HISOBLASH (XATOSIZ)
                 if resume.get('birth_date'):
@@ -265,10 +266,11 @@ def download_resume(id):
                 html_string = render_template("resume_pdf.html", resume=resume)
                 
                 # PDF yaratish
-                pdf = HTML(string=html_string, base_url=request.host_url).write_pdf()
+                pdf = BytesIO()
+                pisa.CreatePDF(BytesIO(html_string.encode("utf-8")), pdf)
                 
                 # Response
-                response = make_response(pdf)
+                response = make_response(pdf.getvalue())
                 response.headers["Content-Type"] = "application/pdf"
                 response.headers["Content-Disposition"] = f"attachment; filename=CV_{resume['full_name']}.pdf"
                 
