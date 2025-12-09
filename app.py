@@ -225,7 +225,6 @@ def view_resume(id):
     flash("Rezyume topilmadi!", "warning")
     return redirect(url_for('dashboard'))
 
-# ==================== DOWNLOAD PDF ====================
 @app.route('/resume/<int:id>/download')
 def download_resume(id):
     if 'user_id' not in session:
@@ -241,44 +240,50 @@ def download_resume(id):
         
         if resume:
             try:
-                from xhtml2pdf import pisa
-                from io import BytesIO
-                from datetime import datetime
+                from weasyprint import HTML
+                from datetime import datetime, date
                 
-                # ⚠️ BIRTH_DATE NI TO'G'RILASH - String yoki Date object bo'lishi mumkin
+                # ⚠️ YOSH HISOBLASH (XATOSIZ)
                 if resume.get('birth_date'):
-                    if isinstance(resume['birth_date'], str):
-                        # Agar string bo'lsa
-                        birth_year = int(resume['birth_date'][:4])
-                    else:
-                        # Agar date obyekt bo'lsa
-                        birth_year = resume['birth_date'].year
+                    birth_date = resume['birth_date']
                     
-                    current_year = datetime.now().year
-                    resume['age'] = current_year - birth_year
+                    # Agar date object bo'lsa
+                    if isinstance(birth_date, date):
+                        resume['age'] = 2024 - birth_date.year
+                    # Agar string bo'lsa
+                    elif isinstance(birth_date, str) and len(birth_date) >= 4:
+                        try:
+                            resume['age'] = 2024 - int(birth_date[:4])
+                        except:
+                            resume['age'] = None
+                    else:
+                        resume['age'] = None
                 else:
                     resume['age'] = None
                 
-                # ⚠️ RASM YO'LINI TO'G'RILASH
-                if resume.get('photo_path'):
-                    base_dir = os.path.abspath(os.path.dirname(__file__))
-                    full_photo_path = os.path.join(base_dir, 'static', resume['photo_path'])
-                    resume['full_photo_path'] = full_photo_path
-                else:
-                    resume['full_photo_path'] = None
+                # HTML render
+                html_string = render_template("resume_pdf.html", resume=resume)
                 
-                html = render_template("resume_pdf.html", resume=resume)
-                pdf = BytesIO()
-                pisa.CreatePDF(BytesIO(html.encode("utf-8")), pdf)
+                # PDF yaratish
+                pdf = HTML(string=html_string, base_url=request.host_url).write_pdf()
                 
-                response = make_response(pdf.getvalue())
+                # Response
+                response = make_response(pdf)
                 response.headers["Content-Type"] = "application/pdf"
                 response.headers["Content-Disposition"] = f"attachment; filename=CV_{resume['full_name']}.pdf"
+                
                 return response
                 
             except Exception as e:
-                flash(f"PDF yaratishda xato: {e}", "danger")
-                print(f"PDF xatosi: {e}")  # Debug uchun
+                print("="*60)
+                print("PDF YARATISH XATOSI:")
+                print(f"Xato: {str(e)}")
+                print(f"Xato turi: {type(e)}")
+                import traceback
+                traceback.print_exc()
+                print("="*60)
+                
+                flash(f"PDF yaratishda xato: {str(e)}", "danger")
                 return redirect(url_for('view_resume', id=id))
     
     flash("Rezyume topilmadi!", "warning")

@@ -201,11 +201,11 @@
             <!-- ISM -->
             <div class="name-box">
                 <h1>{{ resume.full_name|upper }}</h1>
-                {% if resume.birth_date %}
-                <div class="age">Yosh: {{ 2024 - resume.birth_date[:4]|int }}</div>
+                {% if resume.age %}
+                <div class="info">Yosh: {{ resume.age }}</div>
                 {% endif %}
                 {% if resume.city %}
-                <div class="location">Manzil: {{ resume.city }}</div>
+                <div class="info">Manzil: {{ resume.city }}</div>
                 {% endif %}
             </div>
             
