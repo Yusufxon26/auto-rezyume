@@ -18,214 +18,217 @@
         body {
             font-family: Arial, sans-serif;
             font-size: 9pt;
-            line-height: 1.4;
-            color: #333;
+            line-height: 1.5;
+            color: #2c3e50;
         }
         
-        .cv-wrapper {
+        .cv-container {
             display: table;
             width: 210mm;
             height: 297mm;
         }
         
-        /* CHAP USTUN */
-        .cv-left {
+        /* ============ CHAP USTUN (SIDEBAR) ============ */
+        .sidebar {
             display: table-cell;
-            width: 35%;
-            background: #3d5a80;
+            width: 38%;
+            background: linear-gradient(180deg, #34495e 0%, #2c3e50 100%);
             color: white;
-            padding: 20px 15px;
+            padding: 25px 20px;
             vertical-align: top;
         }
         
-        .photo-box {
+        /* FOTO */
+        .photo-container {
             text-align: center;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
         
-        .photo-box img {
-            width: 130px;
-            height: 130px;
-            border-radius: 5px;
-            border: 3px solid white;
+        .photo-container img {
+            width: 140px;
+            height: 140px;
+            border: 4px solid white;
+            border-radius: 3px;
             object-fit: cover;
         }
         
-        .name-box {
+        /* ISM VA YOSH */
+        .profile-name {
             text-align: center;
+            background: rgba(52, 152, 219, 0.3);
+            padding: 15px 10px;
             margin-bottom: 20px;
-            padding: 10px 5px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 5px;
+            border-radius: 3px;
         }
         
-        .name-box h1 {
-            font-size: 16pt;
-            text-transform: uppercase;
-            margin-bottom: 5px;
+        .profile-name h1 {
+            font-size: 18pt;
             font-weight: bold;
-        }
-        
-        .name-box .age {
-            font-size: 9pt;
-            margin-bottom: 3px;
-        }
-        
-        .name-box .location {
-            font-size: 8pt;
-            opacity: 0.9;
-        }
-        
-        .left-section {
-            margin-bottom: 18px;
-        }
-        
-        .left-section h3 {
-            font-size: 10pt;
             text-transform: uppercase;
-            color: #6dd5ed;
             margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+        
+        .profile-name .info-line {
+            font-size: 9pt;
+            margin: 4px 0;
+        }
+        
+        /* SIDEBAR SECTIONS */
+        .sidebar-block {
+            margin-bottom: 22px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .sidebar-block:last-child {
+            border-bottom: none;
+        }
+        
+        .sidebar-block h3 {
+            font-size: 11pt;
+            color: #3498db;
+            text-transform: uppercase;
+            margin-bottom: 10px;
             font-weight: bold;
+            letter-spacing: 0.5px;
         }
         
-        .left-section p {
-            font-size: 8pt;
-            line-height: 1.5;
+        .contact-item {
+            margin-bottom: 10px;
+            font-size: 8.5pt;
+            line-height: 1.6;
         }
         
-        .left-section ul {
+        .contact-item strong {
+            display: block;
+            color: #3498db;
+            margin-bottom: 3px;
+            font-size: 9pt;
+        }
+        
+        .sidebar-list {
             list-style: none;
             padding: 0;
-            font-size: 8pt;
-        }
-        
-        .left-section li {
-            margin-bottom: 5px;
-            padding-left: 12px;
-        }
-        
-        .contact-line {
-            margin-bottom: 8px;
-            font-size: 8pt;
-            word-wrap: break-word;
-        }
-        
-        .contact-line strong {
-            display: block;
-            color: #6dd5ed;
-            margin-bottom: 2px;
             font-size: 8.5pt;
         }
         
-        /* O'NG USTUN */
-        .cv-right {
+        .sidebar-list li {
+            margin-bottom: 6px;
+            padding-left: 15px;
+            text-indent: -10px;
+        }
+        
+        /* ============ O'NG USTUN (MAIN CONTENT) ============ */
+        .main-content {
             display: table-cell;
-            width: 65%;
-            padding: 25px 20px;
+            width: 62%;
+            padding: 30px 25px;
             vertical-align: top;
             background: white;
         }
         
-        .right-section {
-            margin-bottom: 20px;
+        .content-section {
+            margin-bottom: 22px;
         }
         
-        .right-section h3 {
-            font-size: 11pt;
-            color: #3d5a80;
+        .content-section h2 {
+            font-size: 12pt;
+            color: #2c3e50;
             text-transform: uppercase;
-            border-bottom: 2px solid #6dd5ed;
-            padding-bottom: 5px;
-            margin-bottom: 10px;
-            font-weight: bold;
-        }
-        
-        .content-item {
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 6px;
             margin-bottom: 12px;
-            padding-left: 10px;
-            border-left: 2px solid #e0e0e0;
-        }
-        
-        .content-item h4 {
-            font-size: 10pt;
-            color: #2c4766;
-            margin-bottom: 3px;
             font-weight: bold;
+            letter-spacing: 0.5px;
         }
         
-        .content-item .meta {
-            font-size: 8pt;
-            color: #666;
+        .timeline-item {
+            margin-bottom: 15px;
+            padding-left: 12px;
+            border-left: 3px solid #e0e0e0;
+        }
+        
+        .timeline-item h4 {
+            font-size: 10.5pt;
+            color: #2c3e50;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+        
+        .timeline-item .years {
+            font-size: 9pt;
+            color: #7f8c8d;
+            font-style: italic;
+            margin-bottom: 6px;
+        }
+        
+        .timeline-item .institution {
+            font-size: 9pt;
+            color: #34495e;
+            font-weight: bold;
             margin-bottom: 5px;
         }
         
-        .content-item p {
+        .timeline-item p {
             font-size: 8.5pt;
-            color: #444;
-            line-height: 1.5;
+            color: #555;
+            line-height: 1.6;
             white-space: pre-line;
         }
         
-        .simple-text {
-            font-size: 8.5pt;
-            line-height: 1.5;
+        .text-content {
+            font-size: 9pt;
+            line-height: 1.6;
+            color: #555;
             white-space: pre-line;
-        }
-        
-        /* Bullet list uchun oddiy usul */
-        .bullet-list {
-            list-style: none;
-            padding: 0;
-        }
-        
-        .bullet-item {
-            margin-bottom: 5px;
-            padding-left: 15px;
-            text-indent: -10px;
         }
     </style>
 </head>
 <body>
-    <div class="cv-wrapper">
+    <div class="cv-container">
         
-        <!-- CHAP USTUN -->
-        <div class="cv-left">
+        <!-- =============== CHAP USTUN (SIDEBAR) =============== -->
+        <div class="sidebar">
             
             <!-- FOTO -->
             {% if resume.photo_path %}
-            <div class="photo-box">
+            <div class="photo-container">
                 <img src="{{ url_for('static', filename=resume.photo_path, _external=True) }}" alt="Photo">
             </div>
             {% endif %}
             
-            <!-- ISM -->
-            <div class="name-box">
+            <!-- ISM, YOSH, MANZIL -->
+            <div class="profile-name">
                 <h1>{{ resume.full_name|upper }}</h1>
                 {% if resume.age %}
-                <div class="info">Yosh: {{ resume.age }}</div>
+                <div class="info-line">Yosh: {{ resume.age }}</div>
                 {% endif %}
                 {% if resume.city %}
-                <div class="info">Manzil: {{ resume.city }}</div>
+                <div class="info-line">Ma'lumot: {{ resume.city }}</div>
+                {% endif %}
+                {% if resume.profession %}
+                <div class="info-line">Mutaxassislik: {{ resume.profession }}</div>
                 {% endif %}
             </div>
             
             <!-- ALOQA -->
-            <div class="left-section">
+            <div class="sidebar-block">
                 <h3>Aloqa:</h3>
                 {% if resume.phone %}
-                <div class="contact-line">
-                    <strong>Telefon:</strong>
+                <div class="contact-item">
+                    <strong>Telefon raqam:</strong>
                     {{ resume.phone }}
                 </div>
                 {% endif %}
                 {% if resume.email %}
-                <div class="contact-line">
+                <div class="contact-item">
                     <strong>Email:</strong>
                     {{ resume.email }}
                 </div>
                 {% endif %}
                 {% if resume.address %}
-                <div class="contact-line">
+                <div class="contact-item">
                     <strong>Manzil:</strong>
                     {{ resume.address }}
                 </div>
@@ -234,23 +237,23 @@
             
             <!-- CHET TILLARI -->
             {% if resume.languages %}
-            <div class="left-section">
+            <div class="sidebar-block">
                 <h3>Chet tillari:</h3>
-                <ul class="bullet-list">
+                <ul class="sidebar-list">
                     {% for lang in resume.languages.split(',') %}
-                    <li class="bullet-item">• {{ lang.strip() }}</li>
+                    <li>• {{ lang.strip() }}</li>
                     {% endfor %}
                 </ul>
             </div>
             {% endif %}
             
-            <!-- KOMPYUTER -->
+            <!-- KOMPYUTER SAVXONLIGI -->
             {% if resume.technical_skills %}
-            <div class="left-section">
+            <div class="sidebar-block">
                 <h3>Kompyuter savxonligi:</h3>
-                <ul class="bullet-list">
+                <ul class="sidebar-list">
                     {% for skill in resume.technical_skills.split(',') %}
-                    <li class="bullet-item">• {{ skill.strip() }}</li>
+                    <li>• {{ skill.strip() }}</li>
                     {% endfor %}
                 </ul>
             </div>
@@ -258,11 +261,11 @@
             
             <!-- SHAXSIY XUSUSIYATLAR -->
             {% if resume.soft_skills %}
-            <div class="left-section">
+            <div class="sidebar-block">
                 <h3>Shaxsiy xususiyatlar:</h3>
-                <ul class="bullet-list">
+                <ul class="sidebar-list">
                     {% for skill in resume.soft_skills.split(',') %}
-                    <li class="bullet-item">• {{ skill.strip() }}</li>
+                    <li>• {{ skill.strip() }}</li>
                     {% endfor %}
                 </ul>
             </div>
@@ -270,17 +273,17 @@
             
         </div>
         
-        <!-- O'NG USTUN -->
-        <div class="cv-right">
+        <!-- =============== O'NG USTUN (MAIN CONTENT) =============== -->
+        <div class="main-content">
             
             <!-- ISH TAJRIBASI -->
             {% if resume.work_company %}
-            <div class="right-section">
-                <h3>Ish tajribasi:</h3>
-                <div class="content-item">
+            <div class="content-section">
+                <h2>Ish tajribasi:</h2>
+                <div class="timeline-item">
                     <h4>{{ resume.work_position }}</h4>
-                    <div class="meta">{{ resume.work_years }}</div>
-                    <p><strong>{{ resume.work_company }}</strong></p>
+                    <div class="years">{{ resume.work_years }}</div>
+                    <div class="institution">{{ resume.work_company }}</div>
                     {% if resume.work_duties %}
                     <p>{{ resume.work_duties }}</p>
                     {% endif %}
@@ -288,15 +291,18 @@
             </div>
             {% endif %}
             
-            <!-- TA'LIM -->
+            <!-- TA'LIM DARAJASI -->
             {% if resume.education_institution %}
-            <div class="right-section">
-                <h3>Ta'lim darajasi:</h3>
-                <div class="content-item">
+            <div class="content-section">
+                <h2>Ta'lim darajasi:</h2>
+                <div class="timeline-item">
                     <h4>{{ resume.education_institution }}</h4>
-                    <div class="meta">{{ resume.education_years }}</div>
+                    <div class="years">{{ resume.education_years }}</div>
                     {% if resume.education_degree or resume.education_field %}
-                    <p>{{ resume.education_degree }} {% if resume.education_field %}- {{ resume.education_field }}{% endif %}</p>
+                    <div class="institution">
+                        {{ resume.education_degree }}
+                        {% if resume.education_field %}- {{ resume.education_field }}{% endif %}
+                    </div>
                     {% endif %}
                     {% if resume.education_details %}
                     <p>{{ resume.education_details }}</p>
@@ -307,33 +313,33 @@
             
             <!-- SERTIFIKATLAR -->
             {% if resume.certificates %}
-            <div class="right-section">
-                <h3>Sertifikatlar:</h3>
-                <div class="simple-text">{{ resume.certificates }}</div>
+            <div class="content-section">
+                <h2>Sertifikatlar:</h2>
+                <div class="text-content">{{ resume.certificates }}</div>
             </div>
             {% endif %}
             
             <!-- LOYIHALAR -->
             {% if resume.projects %}
-            <div class="right-section">
-                <h3>Loyihalar:</h3>
-                <div class="simple-text">{{ resume.projects }}</div>
+            <div class="content-section">
+                <h2>Loyihalar:</h2>
+                <div class="text-content">{{ resume.projects }}</div>
             </div>
             {% endif %}
             
             <!-- O'ZIM HAQIMDA -->
             {% if resume.career_objective %}
-            <div class="right-section">
-                <h3>O'zim haqimda:</h3>
-                <div class="simple-text">{{ resume.career_objective }}</div>
+            <div class="content-section">
+                <h2>O'zim haqimda:</h2>
+                <div class="text-content">{{ resume.career_objective }}</div>
             </div>
             {% endif %}
             
             <!-- YUTUQLAR -->
             {% if resume.achievements %}
-            <div class="right-section">
-                <h3>Yutuqlar:</h3>
-                <div class="simple-text">{{ resume.achievements }}</div>
+            <div class="content-section">
+                <h2>Yutuqlar:</h2>
+                <div class="text-content">{{ resume.achievements }}</div>
             </div>
             {% endif %}
             
